@@ -14,13 +14,18 @@
 | 1 | Brand kit: palette, logo, wordmark, pixel font, story | Palette, logo and story in; wordmark and font to do |
 | 1b | The Stack: mock-up → tileset (roads, chips, pads, vias, grime overlays) | Mock-up v1 in `art/world/` |
 | 2 | Website: home (animated FC city), open-dvr, shop, game teaser, links, email sign-up | Next |
-| 3 | Shop: Stripe Payment Links (no monthly fee) + PayPal | Waiting on: where the business is registered |
+| 3 | Shop: Stripe Payment Links (no monthly fee) + a separate PayPal button | Business: Canada |
 | 4 | YouTube kit: profile 800×800, banner 2560×1440, intro animation (thumbnails are designed separately) | After the site |
 | 5 | Game: vertical slice built from the zine mazes and the FC city tiles | After the site |
 
 ## Shop notes
 
+The business is registered in Canada.
+
 - No custom cart. Stripe Payment Links: one link per product, collects the shipping address, card fees only.
-- PayPal: if the business is in the EEA, UK or Switzerland, Stripe can offer PayPal inside the same checkout (enable it under Payment methods in the Stripe dashboard). Elsewhere, add a separate PayPal button next to the Stripe one.
-- Before the first sale: tax/VAT and electronics rules (CE in Europe, FCC in the US) for the countries you ship to.
+- PayPal: Stripe only offers PayPal inside its checkout to businesses in the EU, UK, Norway, Liechtenstein and Switzerland, not Canada. So each product gets a separate PayPal button (PayPal Business account) next to the Stripe one. Two dashboards to check for orders.
+- Before the first sale, check:
+  - GST/HST: registration is optional until sales pass the CRA's small-supplier threshold (CAD 30,000 over four consecutive quarters).
+  - Shipping to the US: US state sales tax and import duties.
+  - Electronics rules for bare boards and kits in the countries you ship to (ISED in Canada, FCC in the US, CE in Europe).
 - Hosting: GitHub Pages or Cloudflare Pages (free). Buy a domain once the name is settled.

@@ -10,4 +10,13 @@ The original hand-drawn maze puzzles that the luci3D snake logo comes from. They
 | `maze-04.png` | Filled triangle top left, hollow triangle bottom right; a spiral; a circle with an opening |
 | `maze-05.png` | Hollow triangle top, filled triangle right; two long diagonals that cut the maze; an "X" |
 
-Symbol meanings to confirm with the author: filled triangle = start? hollow = exit? What are the circle, the "X", the "+", the solid blocks and the diagonal lines?
+## Legend
+
+| Symbol | In the game |
+|---|---|
+| Triangles on the outer edge | Entry and exit |
+| Solid black blocks | Story assets: places where a piece of the story is told |
+| Circle, X, + | Power-ups or items (to be decided) |
+| Lines, including the diagonals | Walls (traces you can't cross) |
+
+Still open: which triangle is the entry and which is the exit (filled = entry, hollow = exit is the working guess), and what each item does.

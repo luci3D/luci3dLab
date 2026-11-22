@@ -43,4 +43,4 @@ The first city is **the Stack**: an old FPV flight controller and its 4-in-1 ESC
 
 - Where is the human luci3D in the game? The client who calls in the job, or the voice on the radio?
 - Enemies: corrosion, cold joints, ESD sparks, firmware locks, magic smoke spirits?
-- What do the zine symbols mean in-game? (See [`../zine/README.md`](../zine/README.md).)
+- Zine symbols are decided (entry/exit, story blocks, items): see [`../zine/README.md`](../zine/README.md). What the items do is still open.
