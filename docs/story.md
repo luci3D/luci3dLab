@@ -10,21 +10,25 @@
 
 Inspired by the first time you opened a 90s PC and saw a micro metropolis. Every board is a city, and old boards are old cities: graffiti, grime, flux stains, scorch marks, bodge wires. Big-city grime is part of the look on purpose.
 
-The first city is **an old FPV flight controller** (generic, not a specific product):
+The first city is **the Stack**: an old FPV flight controller and its 4-in-1 ESC side by side, floating over the quad's carbon frame, joined by the 8-wire cable (generic parts, not specific products):
 
 | On the board | In the city |
 |---|---|
 | Traces | Roads and avenues. Wide power traces are highways |
 | MCU | Downtown, the skyscraper |
-| Big electrolytic capacitor | The water tower |
+| Big electrolytic capacitor (on the ESC battery pads) | The water tower |
 | OSD chip | The TV station: it writes onto the analog video |
 | CAM and VTX pads | Where analog video enters and leaves the city |
-| Motor pads | The industrial edge, scorched and re-soldered many times |
+| Motor pads | The industrial edge, scorched and re-soldered many times. Motor wires lead off the map |
+| ESC MOSFETs | The factory district. One is blown |
+| The torn ESC label | What's left of an old billboard |
+| The 8-wire FC–ESC cable | The bridge between the two cities, over the carbon-frame abyss |
+| micro SD card | Sticks out over the edge: the city's archive |
 | Mounting holes | City gates |
 | Vias | Manholes, tunnels between layers |
 | Ground pour | Open plazas |
 | Bodge wire | luci3D's signature: a repair instead of a replacement |
-| Burnt regulator, magic smoke | Where something died. Can it be brought back? |
+| Burnt parts, magic smoke | Where something died. Can it be brought back? |
 | USB port | The harbour, the link to the outside world |
 | Silkscreen | Street signs. Graffiti tags sit on top of them |
 
