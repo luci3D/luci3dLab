@@ -1,0 +1,26 @@
+GIMP Palette
+Name: luci3D
+Columns: 4
+#
+# Brand palette, edited in Aseprite (colours and order are the owner's).
+# Scripts read colours by the names on the right, so keep the names when editing.
+123  41  41	oxide red
+141  14  14	burn red
+184 115  58	copper
+101  67  37	copper shadow
+224 168  74	enig gold
+255 224 138	gold highlight
+242 241 238	silkscreen white
+149 144 123	silkscreen shade
+207 190  81	flux
+ 47 122  74	trace highlight
+ 30  77  49	trace
+ 18  48  31	mask
+ 11  26  18	mask deep
+ 78 145 125	signal teal
+ 43 119 128	signal teal deep
+ 55  55  62	ic dark
+ 74  74  82	ic grey
+110  52 180	smoke violet
+107  67 119	dusk purple
+131  67 149	graffiti purple
