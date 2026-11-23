@@ -25,6 +25,9 @@ sys.path.insert(0, str(ROOT / "brand" / "tools"))
 import palette  # noqa: E402
 from font3x5 import text_pixels, text_width  # noqa: E402
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from ewaste import Parts  # noqa: E402
+
 P = palette.load()
 globals().update({k.upper().replace(" ", "_"): v for k, v in P.items()})
 
@@ -460,6 +463,12 @@ for i in range(4):
     line([(300 + i * 7, 222), (304 + i * 7, 212)], IC_BLACK, 2)
 pile(-14, 156, 268, 92, hgt=70, peak=0.35)
 pile(324, 494, 268, 92, hgt=74, peak=0.6)
+parts = Parts(R, line, ell, px, sag, drone, P)                           # computer and robot parts on the heaps
+parts.scatter([(parts.gpu, 4, 234), (parts.motherboard, 96, 236), (parts.robot_head, 132, 224), (parts.ram, 26, 256),
+               (parts.psu, 116, 252), (parts.hdd, 70, 254), (parts.servo, 92, 262), (parts.robot_arm, 2, 220),
+               (parts.gpu, 336, 238), (parts.motherboard, 428, 242), (parts.track, 380, 254), (parts.servo, 360, 230),
+               (parts.hdd, 462, 258), (parts.ram, 400, 262), (parts.robot_arm, 440, 222), (parts.psu, 344, 254)])
+parts.delivery_drone(364, 214)
 drone(412, 190, 50, arms=6, gear=16, battery=WIRE_YELLOW, props=(SIGNAL_PINK, IC_GREY), noprop=(4,))   # heavy-lift hex
 drone(98, 230, 28, arms=4, tilt=0.15, broken=(3,), noprop=(0,), props=(WIRE_YELLOW,), led=None)  # a crashed 7-incher
 rng = _rng_main

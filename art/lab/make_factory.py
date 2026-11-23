@@ -27,6 +27,9 @@ sys.path.insert(0, str(ROOT / "brand" / "tools"))
 import palette  # noqa: E402
 from font3x5 import text_pixels  # noqa: E402
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from ewaste import Parts  # noqa: E402
+
 P = palette.load()
 globals().update({k.upper().replace(" ", "_"): v for k, v in P.items()})
 
@@ -459,98 +462,7 @@ def drone(cx, cy, r, arms=4, tilt=0.0, flat=0.42, broken=(), dangling=(), noprop
     return T
 
 
-def motherboard(x, y):
-    R(x, y, x + 34, y + 24, MASK)
-    R(x, y, x + 34, y, TRACE_HIGHLIGHT)
-    R(x + 5, y + 5, x + 13, y + 13, SILKSCREEN_SHADE)                     # CPU socket
-    R(x + 7, y + 7, x + 11, y + 11, IC_GREY)
-    for k in range(3):                                                    # RAM slots
-        line([(x + 17 + k * 2, y + 3), (x + 17 + k * 2, y + 15)], IC_BLACK)
-    for k in range(2):                                                    # PCIe slots
-        line([(x + 3, y + 18 + k * 3), (x + 24, y + 18 + k * 3)], IC_BLACK)
-    R(x + 28, y - 3, x + 34, y + 7, IC_GREY)                              # I/O shield
-    for k in range(4):
-        px(x + 4 + k * 3, y + 15, IC_DARK)
-
-
-def ram(x, y):
-    R(x, y, x + 22, y + 5, MASK)
-    for k in range(4):
-        R(x + 2 + k * 5, y + 1, x + 5 + k * 5, y + 3, IC_BLACK)
-    line([(x, y + 5), (x + 22, y + 5)], ENIG_GOLD)
-
-
-def gpu(x, y):
-    R(x, y, x + 32, y + 11, IC_DARK)
-    R(x, y, x + 32, y, IC_GREY)
-    R(x, y + 10, x + 32, y + 11, LOGO_RED)
-    for fx in (x + 9, x + 23):
-        ell(fx, y + 5, 4.5, 4.5, IC_BLACK)
-        line([(fx - 3, y + 5), (fx + 3, y + 5)], IC_GREY)
-        line([(fx, y + 2), (fx, y + 8)], IC_GREY)
-    line([(x + 4, y + 12), (x + 24, y + 12)], ENIG_GOLD)
-
-
-def psu(x, y):
-    R(x, y, x + 18, y + 14, IC_GREY)
-    R(x, y, x + 18, y + 2, SILKSCREEN_SHADE)
-    ell(x + 9, y + 8, 5, 5, IC_DARK)
-    line([(x + 5, y + 8), (x + 13, y + 8)], IC_GREY)
-    line([(x + 9, y + 4), (x + 9, y + 12)], IC_GREY)
-    for k, c in enumerate((WIRE_YELLOW, LOGO_RED, IC_DARK)):
-        line(sag(x + 18, y + 4 + k * 3, x + 30, y + 10 + k * 3, 3, 6), c)
-
-
-def hdd(x, y):
-    R(x, y, x + 14, y + 10, SILKSCREEN_SHADE)
-    R(x, y, x + 14, y, SILKSCREEN_WHITE)
-    ell(x + 6, y + 5, 3.5, 3.5, IC_GREY)
-    px(x + 6, y + 5, SILKSCREEN_WHITE)
-
-
-def robot_arm(x, y):
-    line([(x, y), (x + 18, y - 10)], WIRE_YELLOW, 5)
-    line([(x + 18, y - 10), (x + 30, y - 4)], WIRE_YELLOW, 4)
-    line([(x, y - 2), (x + 18, y - 12)], GOLD_HIGHLIGHT)
-    for jx, jy in ((x, y), (x + 18, y - 10)):
-        ell(jx, jy, 4, 4, IC_GREY)
-        ell(jx, jy, 2, 2, IC_DARK)
-    line([(x + 30, y - 4), (x + 35, y - 7)], IC_GREY, 2)
-    line([(x + 30, y - 4), (x + 35, y - 1)], IC_GREY, 2)
-
-
-def robot_head(x, y):
-    R(x, y, x + 16, y + 12, IC_GREY)
-    R(x, y, x + 16, y + 2, SILKSCREEN_SHADE)
-    for ex, c in ((x + 4, GLOW_TEAL), (x + 11, LOGO_RED)):
-        ell(ex, y + 6, 3, 3, IC_BLACK)
-        px(ex, y + 6, c)
-    line([(x + 9, y + 3), (x + 12, y + 9)], IC_BLACK)                     # crack
-    line([(x + 8, y), (x + 8, y - 5)], IC_GREY)
-    px(x + 8, y - 6, LOGO_RED)
-
-
-def track(x, y):
-    R(x, y, x + 24, y + 7, IC_BLACK)
-    for k in range(4):
-        ell(x + 4 + k * 5.5, y + 3.5, 2.5, 2.5, IC_GREY)
-    for k in range(0, 24, 3):
-        px(x + k, y, IC_DARK)
-
-
-def servo(x, y):
-    R(x, y, x + 8, y + 5, WIRE_BLUE)
-    R(x, y, x + 8, y, GLOW_TEAL)
-    line([(x + 2, y - 1), (x + 7, y - 1)], SILKSCREEN_WHITE)
-
-
-def delivery_drone(x, y):
-    drone(x, y, 26, arms=6, tilt=-0.12, broken=(4,), noprop=(1, 2), body=SILKSCREEN_WHITE, props=(IC_GREY,))
-    R(x - 8, y + 6, x + 8, y + 18, FR4_EDGE)                              # its parcel, still strapped on
-    R(x - 8, y + 6, x + 8, y + 8, FR4_SHADE)
-    R(x - 1, y + 6, x + 1, y + 18, COPPER)
-    line([(x - 6, y + 2), (x - 6, y + 6)], IC_GREY)
-    line([(x + 6, y + 2), (x + 6, y + 6)], IC_GREY)
+parts = Parts(R, line, ell, px, sag, drone, P)
 
 
 poly([(296, 270), (312, 244), (348, 228), (396, 222), (446, 226), (480, 232), (480, 270)], IC_BLACK)  # the heap's mass
@@ -562,12 +474,10 @@ for i in range(46):                                                      # base 
     else:
         R(x, y, x + 10, y + 6, hrng.choice([WIRE_YELLOW, WIRE_BLUE, LOGO_RED]))
         R(x, y, x + 10, y, SILKSCREEN_WHITE)
-items = [(motherboard, 312, 244), (gpu, 384, 236), (psu, 430, 240), (hdd, 352, 258), (ram, 404, 258),
-         (ram, 346, 238), (robot_head, 456, 226), (track, 364, 250), (servo, 420, 232), (servo, 440, 260),
-         (robot_arm, 330, 236), (hdd, 466, 250)]
-for fn, x, y in sorted(items, key=lambda t: t[2]):
-    fn(x, y)
-delivery_drone(404, 224)
+parts.scatter([(parts.motherboard, 312, 244), (parts.gpu, 384, 236), (parts.psu, 430, 240), (parts.hdd, 352, 258),
+               (parts.ram, 404, 258), (parts.ram, 346, 238), (parts.robot_head, 456, 226), (parts.track, 364, 250),
+               (parts.servo, 420, 232), (parts.servo, 440, 260), (parts.robot_arm, 330, 236), (parts.hdd, 466, 250)])
+parts.delivery_drone(404, 224)
 drone(352, 228, 20, arms=4, tilt=0.3, broken=(0,), noprop=(2,), props=(WIRE_YELLOW,))          # wrecked FPV quads
 drone(456, 246, 16, arms=4, tilt=-0.5, dangling=(1,), noprop=(0, 3), body=LOGO_RED, props=(GLOW_TEAL,))
 for i in range(5):                                                       # cable tangles over the top
