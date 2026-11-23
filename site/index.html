@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>luci3D hardware: hardware for analog FPV</title>
-<meta name="description" content="We fix, reverse-engineer and build FPV electronics. Our recorder software is open source.">
-<meta property="og:title" content="luci3D hardware: hardware for analog FPV">
-<meta property="og:description" content="We fix, reverse-engineer and build FPV electronics. Our recorder software is open source.">
+<title>luci3D hardware: built for analog FPV</title>
+<meta name="description" content="We repair, reverse-engineer and build FPV electronics. Home of open-dvr, the analog DVR that records every field.">
+<meta property="og:title" content="luci3D hardware: built for analog FPV">
+<meta property="og:description" content="We repair, reverse-engineer and build FPV electronics. Home of open-dvr, the analog DVR that records every field.">
 <meta property="og:image" content="img/clean.png">
 <link rel="icon" type="image/png" href="img/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,8 +19,8 @@
 <header class="site-header"><div class="wrap">
   <a class="brand" href="index.html"><img class="pixel" src="img/logo-1x.png" alt="" width="27" height="33"><span>luci3D hardware</span></a>
   <nav class="nav">
-    <a href="dvr.html">Open DVR</a>
-    <a href="shop.html">Shop</a>
+    <a href="dvr.html">open-dvr</a>
+    <a href="shop.html">The Lab</a>
     <a href="game.html">Game</a>
     <a href="https://github.com/luci3D/open-dvr">GitHub</a>
   </nav>
@@ -30,45 +30,45 @@
   <img class="pixel" src="img/clean.png" width="1800" height="760" alt="A 4-in-1 ESC, a flight controller and the open-dvr recorder board drawn as a pixel-art city, joined by their cables like bridges.">
   <div class="over"><div class="wrap">
     <div class="silk kicker">luci3D hardware</div>
-    <h1>Hardware for analog FPV.</h1>
-    <p>We fix, reverse-engineer and build FPV electronics. Our recorder software is open source.</p>
-    <div class="btns"><a class="btn" href="dvr.html">Open DVR</a><a class="btn ghost" href="shop.html">Shop</a><a class="btn ghost" href="game.html">Play a maze</a></div>
+    <h1>Built for analog FPV.</h1>
+    <p>We repair, reverse-engineer and build FPV electronics, and we'd rather fix a board than bin it. Our recorder, open-dvr, is open source and moving onto our own hardware.</p>
+    <div class="btns"><a class="btn" href="dvr.html">open-dvr</a><a class="btn ghost" href="shop.html">The Lab</a><a class="btn ghost" href="game.html">Play a maze</a></div>
   </div></div>
 </div>
 
 <section class="block"><div class="wrap split">
   <div>
     <div class="ref">U1</div>
-    <h2>Open DVR</h2>
-    <p>It started as a fix for a cheap analog DVR whose stock firmware records 50/60 fps files with only 25/30 different pictures a second. Our recorder runs from the SD card, flashes nothing, and records every field.</p>
+    <h2>open-dvr</h2>
+    <p>Most cheap analog DVRs throw away half your frames. open-dvr records every field your camera sends, so 50 and 60 fps footage really is 50 and 60 fps.</p>
     <ul class="ticks">
-      <li>Real 50 fps PAL and 59.94 fps NTSC</li>
-      <li>H.264 in MPEG-TS clips that survive a power cut</li>
-      <li>The board's microphone as an in-sync MP3 track</li>
-      <li>Next: our own boards on the Rockchip RV1103</li>
+      <li>PAL 960 x 576 at 50 fps, NTSC 960 x 480 at 59.94 fps</li>
+      <li>On-board microphone, in sync with the video</li>
+      <li>Clips that survive a power cut</li>
+      <li>microSD cards up to 512 GB</li>
     </ul>
-    <div class="btns"><a class="btn" href="dvr.html">The project</a><a class="btn ghost" href="https://github.com/luci3D/open-dvr/releases">Download release 0.9</a></div>
+    <div class="btns"><a class="btn" href="dvr.html">How it works</a><a class="btn ghost" href="https://github.com/luci3D/open-dvr/releases">Download release 0.9</a></div>
   </div>
   <figure>
-    <img class="pixel" src="img/clean-plan.png" width="1664" height="680" alt="The ESC, flight controller and open-dvr board drawn flat, top-down." loading="lazy">
-    <figcaption>ESC, flight controller and the open-dvr board (right), drawn flat.</figcaption>
+    <img class="pixel" src="img/dvr-board.png" width="1120" height="840" alt="The open-dvr 20 x 20 board: RV1103 recorder, TP9950 decoder, NAND, gyro, microphone, microSD slot and a red REC light." loading="lazy">
+    <figcaption>The 20 x 20 open-dvr board we're building. Concept render.</figcaption>
   </figure>
 </div></section>
 
 <section class="block"><div class="wrap">
   <div class="ref">J1</div>
-  <h2>Hardware</h2>
-  <p>Small batches, built and tested by us, running our open-source recorder.</p>
-  <div class="grid" data-products="2"></div>
-  <p style="margin-top:24px"><a href="shop.html">All products</a></p>
+  <h2>The DIY kit</h2>
+  <p>Our first hardware: a decoder board that turns a Luckfox Pico into an open-dvr recorder. Built and tested in small batches.</p>
+  <div class="product-single" data-products="1"></div>
+  <p style="margin-top:24px"><a href="shop.html">Visit the Lab</a></p>
 </div></section>
 
 <section class="block"><div class="wrap split">
   <div>
     <div class="ref">TP1</div>
     <h2>Inside the circuit</h2>
-    <p>Every board is a city: traces are roads, chips are buildings, and old boards come with grime, scorch marks and bodge wires. luci3D, the snake from the back of our boards, runs inside the traces and sees the circuit from the inside.</p>
-    <p>The game is in development. Meanwhile, route a trace through one of the original hand-drawn zine mazes.</p>
+    <p>To us, every board is a city. Traces are roads, chips are buildings, and old boards carry their scars: scorch marks, flux, bodge wires. luci3D, the snake from the back of our boards, lives in the traces. We're building a game in that world.</p>
+    <p>While it's in the works, route a trace through one of the hand-drawn mazes from the original luci3D zine.</p>
     <div class="btns"><a class="btn" href="game.html">Play a zine maze</a></div>
   </div>
   <figure>
@@ -78,7 +78,7 @@
 </div></section>
 </main>
 <footer class="site-footer"><div class="wrap">
-  <div><span class="silk">luci3D hardware</span><br>Hardware for analog FPV, from Canada.</div>
+  <div><span class="silk">luci3D hardware</span><br>Analog FPV hardware, from Canada.</div>
   <div><a href="https://github.com/luci3D/open-dvr">open-dvr on GitHub</a><br>Software under GPL-3.0</div>
   <!-- TODO: add the YouTube channel link here once it's set -->
 </div></footer>

@@ -14,6 +14,8 @@ Black boards, white silkscreen. Scale: about 12 px per mm.
 import math
 from pathlib import Path
 
+from PIL import Image
+
 from citykit import City, rounded_outline, spline, C, SHADE
 
 g = globals()
@@ -280,4 +282,8 @@ out.mkdir(exist_ok=True)
 c.plan_image().save(out / "clean-v1-plan.png")
 img = c.render(out_size=(1800, 760), target=(W / 2, H / 2 + 20, 0), pitch=62, dist=1500, focal=1500, screen_cy=0.44)
 img.save(out / "clean-v1.png")
+# close-up of our board alone: rendered small, scaled up with hard pixels
+dvr = c.render(out_size=(560, 420), target=(DX + DS / 2 + 6, DY + DS / 2 + 14, 0), pitch=60, dist=900,
+               focal=1110, screen_cy=0.5, fog=False)
+dvr.resize((560 * 2, 420 * 2), Image.NEAREST).save(out / "clean-v1-dvr.png")
 print("wrote", out, (W, H))

@@ -19,7 +19,8 @@ IMG = SITE / "img"
 IMG.mkdir(exist_ok=True)
 COPIES = {
     "art/world/out/clean-v1.png": "clean.png",
-    "art/world/out/clean-v1-plan.png": "clean-plan.png",
+    "art/world/out/clean-v1-dvr.png": "dvr-board.png",
+    "art/lab/out/lab-v1.png": "lab.png",
     "art/world/out/stack-v2.png": "stack.png",
     "brand/logo/luci3d-snake-1x.png": "logo-1x.png",
     "brand/logo/luci3d-snake-8x.png": "logo-8x.png",

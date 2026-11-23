@@ -1,56 +1,36 @@
-/* The shop's product list. Edit this file to add products or switch them on.
+/* The Lab's product list. Edit this file to add products or switch them on.
 
-   status:  "planned"     on the roadmap, no buy buttons
-            "prototype"   boards exist, not for sale yet ("Get notified")
+   status:  "prototype"   boards exist, not for sale yet ("Get notified")
             "available"   for sale: shows the buy buttons below
-   price:   text shown on the card, e.g. "CAD 39". Leave "" to hide.
+            "planned"     on the roadmap, no buttons
+   price:   text shown on the card, e.g. "CAD 59". Leave "" to hide.
    stripe:  a Stripe Payment Link (dashboard.stripe.com > Payment Links), e.g. "https://buy.stripe.com/..."
-   paypal:  a PayPal payment link or button link from your PayPal Business account
+   paypal:  a PayPal payment link from your PayPal Business account
    image:   a file in site/img/, or "" for the placeholder
+   specs:   [label, value] rows; note: small print under them
 */
 window.PRODUCTS = [
   {
-    id: "decoder-board",
-    name: "open-dvr decoder board",
-    version: "v0.2",
+    id: "diy-kit",
+    name: "open-dvr DIY kit",
+    version: "",
     status: "prototype",
     price: "",
     stripe: "",
     paypal: "",
     image: "",
-    summary: "Turns your analog FPV camera's video into MIPI CSI-2 for a Luckfox Pico, and carries the DVR's microphone. The heart of the DIY DVR kit.",
-    points: ["TP9950 video decoder, real 50/60 fps field capture", "MEMS microphone for in-sync audio", "Taps the camera line in parallel: zero added latency", "Runs the open-source open-dvr recorder"],
-    link: "dvr.html#roadmap",
-  },
-  {
-    id: "imu-breakout",
-    name: "IMU breakout",
-    version: "",
-    status: "planned",
-    price: "", stripe: "", paypal: "", image: "",
-    summary: "A gyro board for the DVR: logs the quad's motion next to every clip, ready for Gyroflow stabilisation.",
-    points: ["LSM6DSOX IMU", "Gyroflow-ready .gcsv logs"],
-    link: "dvr.html#roadmap",
-  },
-  {
-    id: "dvr-20",
-    name: "On-quad DVR, 20 x 20",
-    version: "",
-    status: "planned",
-    price: "", stripe: "", paypal: "", image: "",
-    summary: "Everything on one board: recorder, video decoder, IMU and mic, in a 20 x 20 mm stack mount.",
-    points: ["Rockchip RV1103", "Same open recorder software"],
-    link: "dvr.html#roadmap",
-  },
-  {
-    id: "dvr-whoop",
-    name: "On-quad DVR, whoop",
-    version: "",
-    status: "planned",
-    price: "", stripe: "", paypal: "", image: "",
-    summary: "The same circuit on the smallest board we can make, for whoops and micros.",
-    points: ["Smallest possible footprint"],
-    link: "dvr.html#roadmap",
+    summary: "Our decoder board turns a Luckfox Pico Pro or Max into an analog DVR. It taps your camera line in parallel, so it never touches your live feed.",
+    specs: [
+      ["PAL", "960 x 576 at 50 fps*"],
+      ["NTSC", "960 x 480 at 59.94 fps*"],
+      ["Audio", "On-board MEMS microphone, in sync with the video"],
+      ["Storage", "microSD in the Luckfox, up to 512 GB*"],
+      ["Input", "Analog camera, PAL or NTSC detected automatically"],
+      ["Power", "5 V from your flight controller"],
+      ["You add", "A Luckfox Pico Pro or Max and a microSD card"],
+    ],
+    note: "* What our 0.9 recorder does today. Final numbers once the kit is tested.",
+    link: "dvr.html#next",
   },
 ];
 

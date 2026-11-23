@@ -6,7 +6,7 @@ Plain HTML, CSS and a little JavaScript: no build step. The colours come from `b
 |---|---|
 | Home | `index.html` |
 | Open DVR | `dvr.html` |
-| Shop | `shop.html` (cards come from `js/products.js`) |
+| The Lab (shop) | `shop.html` (cards come from `js/products.js`) |
 | Zine maze game | `game.html` + `js/maze.js` |
 
 ## Preview on your computer

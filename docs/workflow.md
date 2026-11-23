@@ -15,7 +15,7 @@
 | 1b | Board cities: the beaten Stack (game) and the Clean Stack (website hero); then a street-view tileset | Both in `art/world/` (shared engine: `citykit.py`) |
 | 1c | Characters: 5 guild creatures with weapons (32 px), luci3D the snake as a pet | Front-view drafts in `art/sprites/`; on hold |
 | 2 | Website: home, open-dvr, shop, game teaser, links, email sign-up | First version in `site/` (sign-up and YouTube link still to add) |
-| 3 | Shop: Stripe Payment Links (no monthly fee) + a separate PayPal button | Business: Canada |
+| 3 | The Lab (shop): the DIY kit only for now; Stripe Payment Links + a separate PayPal button | Page done; needs price, payment links, kit photos and the kit's tested specs |
 | 4 | YouTube kit: profile 800×800, banner 2560×1440, intro animation (thumbnails are designed separately) | After the site |
 | 5 | Game: vertical slice built from the zine mazes and the FC city tiles | After the site |
 

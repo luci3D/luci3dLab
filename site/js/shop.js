@@ -27,13 +27,19 @@
     }
     if (p.link) buttons.append(el("a", { class: "btn ghost", href: p.link }, "Details"));
     const pts = el("ul", { class: "ticks" }, ...(p.points || []).map((t) => el("li", {}, t)));
+    const specs = (p.specs || []).length
+      ? el("table", { class: "specs" }, ...p.specs.map(([k, v]) => el("tr", {}, el("th", {}, k), el("td", {}, v))))
+      : null;
+    const note = p.note ? el("p", { class: "note" }, p.note) : null;
     return el("article", { class: "card product" },
       media,
       el("span", { class: "status " + p.status }, LABEL[p.status] || p.status.toUpperCase()),
       el("h3", {}, p.name + (p.version ? " " + p.version : "")),
       p.price ? el("p", { class: "price" }, p.price) : null,
       el("p", {}, p.summary),
-      pts,
+      p.points ? pts : null,
+      specs,
+      note,
       buttons);
   }
 

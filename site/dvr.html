@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Open DVR · luci3D hardware</title>
-<meta name="description" content="An open recorder for analog FPV: real 50/60 fps, power-cut-safe clips, in-sync audio. Now becoming our own hardware.">
-<meta property="og:title" content="Open DVR · luci3D hardware">
-<meta property="og:description" content="An open recorder for analog FPV: real 50/60 fps, power-cut-safe clips, in-sync audio. Now becoming our own hardware.">
+<title>open-dvr · luci3D hardware</title>
+<meta name="description" content="An open-source recorder for analog FPV: every field recorded, power-cut-safe clips, in-sync audio. Now moving onto our own hardware.">
+<meta property="og:title" content="open-dvr · luci3D hardware">
+<meta property="og:description" content="An open-source recorder for analog FPV: every field recorded, power-cut-safe clips, in-sync audio. Now moving onto our own hardware.">
 <meta property="og:image" content="img/clean.png">
 <link rel="icon" type="image/png" href="img/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,8 +19,8 @@
 <header class="site-header"><div class="wrap">
   <a class="brand" href="index.html"><img class="pixel" src="img/logo-1x.png" alt="" width="27" height="33"><span>luci3D hardware</span></a>
   <nav class="nav">
-    <a href="dvr.html" aria-current="page">Open DVR</a>
-    <a href="shop.html">Shop</a>
+    <a href="dvr.html" aria-current="page">open-dvr</a>
+    <a href="shop.html">The Lab</a>
     <a href="game.html">Game</a>
     <a href="https://github.com/luci3D/open-dvr">GitHub</a>
   </nav>
@@ -28,21 +28,21 @@
 <main>
 <section class="block"><div class="wrap">
   <div class="ref">U1</div>
-  <h1>Open DVR</h1>
-  <p>An open recorder for analog FPV video. Stage 1 upcycles a DVR board anyone can buy; stage 2 is our own hardware, running the same recorder.</p>
+  <h1>open-dvr</h1>
+  <p>An open-source recorder for analog FPV. It started as new firmware for a cheap DVR board you can already buy, and it's moving onto our own hardware.</p>
   <div class="btns"><a class="btn" href="https://github.com/luci3D/open-dvr/releases">Download release 0.9</a><a class="btn ghost" href="https://github.com/luci3D/open-dvr">Source on GitHub</a></div>
 </div></section>
 
 <section class="block"><div class="wrap split">
   <div>
-    <h2>Stage 1: the upcycled DVR</h2>
-    <p>For the BAYCKRC / COOAI "MINI DVR" (Goke GK7202V300 SoC and Techpoint TP2850 decoder). Its stock firmware encodes one field of each frame twice and drops the other, and its microphone drifts out of sync. Our recorder fixes both.</p>
+    <h2>Release 0.9: the upcycled DVR</h2>
+    <p>Runs on the BAYCKRC / COOAI "MINI DVR" (Goke GK7202V300 with a Techpoint TP2850 decoder). Its stock firmware encodes one field of every frame twice and throws the other away, and its audio drifts. open-dvr fixes both, straight from the SD card.</p>
     <ul class="ticks">
-      <li>Every field recorded: real 50 fps PAL and 59.94 fps NTSC, PAL/NTSC detected automatically</li>
+      <li>Every field recorded: PAL 960 x 576 at 50 fps, NTSC 960 x 480 at 59.94 fps, detected automatically</li>
       <li>H.264 in MPEG-TS, 5-minute clips that survive a power cut</li>
-      <li>The board's microphone as an MP3 track, in sync within one frame</li>
-      <li>Button and LEDs work; settings in the stock <code>config.txt</code></li>
-      <li>Nothing is flashed: delete the files and the stock firmware is back</li>
+      <li>On-board microphone as an MP3 track, in sync within one frame</li>
+      <li>microSD cards up to 512 GB</li>
+      <li>Nothing gets flashed: delete the files and the stock firmware is back</li>
     </ul>
   </div>
   <div class="card">
@@ -56,22 +56,31 @@
   </div>
 </div></section>
 
-<section class="block" id="roadmap"><div class="wrap">
-  <h2>Stage 2: our own hardware</h2>
-  <p>One recorder codebase on the Rockchip RV1103, with a Techpoint decoder for the analog video. The DVR never sits in the live video path: it taps the camera line in parallel, so it adds zero latency, and you keep your video even if the DVR crashes.</p>
-  <div class="table-scroll"><table>
-    <tr><th>Product</th><th>What</th><th>For</th></tr>
-    <tr><td>DIY kit</td><td>Our decoder board (video + mic) and IMU breakout, on your own Luckfox Pico</td><td>People who already own a board or want to build their own</td></tr>
-    <tr><td>On-quad DVR, 20 x 20</td><td>Recorder, decoder, IMU and mic on one board</td><td>People who want the finished product</td></tr>
-    <tr><td>On-quad DVR, whoop</td><td>The same circuit, smallest possible board</td><td>Whoops and micros</td></tr>
-    <tr><td>Goggle module (later)</td><td>Records the receiver's video, HDMI out</td><td>Replacing stock goggle DVRs</td></tr>
-  </table></div>
-  <p><b>Where it is now:</b> the IMU logs gyro data that Gyroflow accepts, and the decoder board v0.2 is designed and routed, with its order files ready. Follow along in the <a href="https://github.com/luci3D/open-dvr/blob/main/ROADMAP.md">roadmap</a>.</p>
+<section class="block" id="next"><div class="wrap split">
+  <div>
+    <h2>Next: our own hardware</h2>
+    <p>One recorder on Rockchip's RV1103 with a Techpoint decoder. The DVR taps your camera line in parallel: it adds zero latency, and if it ever crashes, your video keeps going.</p>
+    <div class="table-scroll"><table>
+      <tr><th>Board</th><th>What it is</th><th>Status</th></tr>
+      <tr><td>DIY kit</td><td>Our decoder board (video + microphone) for a Luckfox Pico Pro or Max</td><td>First up</td></tr>
+      <tr><td>open-dvr 20 x 20</td><td>Recorder, decoder, gyro and microphone on one stackable board</td><td>Planned</td></tr>
+      <tr><td>open-dvr whoop</td><td>The same circuit on the smallest board we can make</td><td>Planned</td></tr>
+      <tr><td>Goggle module</td><td>Records your receiver's video, with HDMI out</td><td>Later</td></tr>
+    </table></div>
+    <p><b>Where it is now:</b> gyro logs line up in Gyroflow, and the decoder board is designed and ready to order. Follow along in the <a href="https://github.com/luci3D/open-dvr/blob/main/ROADMAP.md">roadmap</a>.</p>
+  </div>
+  <figure>
+    <img class="pixel" src="img/dvr-board.png" width="1120" height="840" alt="The open-dvr 20 x 20 board." loading="lazy">
+    <figcaption>The 20 x 20 board. Concept render.</figcaption>
+  </figure>
+</div></section>
+
+<section class="block"><div class="wrap">
   <p class="muted">Built on open-source work from the <a href="https://openipc.org">OpenIPC</a> project. Not affiliated with OpenIPC or with the board's maker.</p>
 </div></section>
 </main>
 <footer class="site-footer"><div class="wrap">
-  <div><span class="silk">luci3D hardware</span><br>Hardware for analog FPV, from Canada.</div>
+  <div><span class="silk">luci3D hardware</span><br>Analog FPV hardware, from Canada.</div>
   <div><a href="https://github.com/luci3D/open-dvr">open-dvr on GitHub</a><br>Software under GPL-3.0</div>
   <!-- TODO: add the YouTube channel link here once it's set -->
 </div></footer>

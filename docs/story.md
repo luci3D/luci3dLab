@@ -16,7 +16,7 @@ Inspired by Hyper Light Drifter and Risk of Rain: small, chunky, readable silhou
 
 **luci3D, the snake: your pet companion and guide.** Small and black (the logo is white only to contrast on dark backgrounds), with a grey highlight, a purple rim light and a teal eye so it stands out on black boards. The logo from the back of the open-dvr board, and it came from a hand-drawn zine of maze puzzles: tracing a maze and routing a trace are the same act. The snake runs inside the traces and sees the circuit from the inside. It gives hints, teaches new mechanics, and shows you the way to **the lab**.
 
-**The lab.** luci3D's workshop, hidden in the circuit. You replenish yourself there and get power-ups and items.
+**The lab.** luci3D's workshop: half e-waste pile, half slapped-together supercomputer, with cables and FPV goggles hanging from the ceiling, ready to grab. In the game you replenish yourself there and get power-ups and items; on the website it's the shop. Drawn in [`../art/lab/`](../art/lab/).
 
 **luci3D, the human (background).** An underdog FPV electronics bootlegger. He repairs the micro components before he gives up on a board, always tries to get things back in the air, and squeezes the most out of old equipment. The one you call to crack firmware, modify electronics or build something custom. One of the few 3D flight pilots in the human world. He flies digital too, but analog is king. How he relates to the snake is open.
 
