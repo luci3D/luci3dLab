@@ -2,19 +2,19 @@
 
 ## Characters
 
-**The player: the quest taker.** Not luci3D. You take quests (repairs, rescues, firmware jobs) and pick an avatar from one of five guilds (working names; avatar drafts in [`../art/sprites/`](../art/sprites/)):
+**The player: the quest taker.** Not luci3D. Inside the chips you play a mini creature, armed with a weapon made from electronics, from one of five guilds (drafts in [`../art/sprites/`](../art/sprites/)):
 
-| Guild | Who | Look |
+| Guild | Creature | Weapon |
 |---|---|---|
-| BNF | Bought it ready to fly | Stock gear, red cap, beige hoodie, jeans, radio always in hand |
-| DIY Punk | Built every part themselves | Pink mohawk, teal goggles, patched jacket, copper coil on the arm, soldering iron |
-| Raiders | Scavengers | Scrap hood, respirator and red goggles, LiPo bandolier, salvaged shoulder plate, whip antenna |
-| Racers | Gates and lap times | Slim goggles with a pink lens, yellow race jacket with a number, gloves, red shoes |
-| Whitespace | The clean futurists: the big-brand, ready-made camp | All white, glossy and rounded, teal visor, a little camera drone that follows them |
+| BNF | A sturdy stock critter with a camera-module head, red casing | Propeller-blade sword and prop-guard shield (the starter kit) |
+| DIY Punk | A grinning purple gremlin: pink wire mohawk, teal goggles, patched vest, copper coil on the arm, JST-plug tail | Soldering-iron lance with a glowing tip |
+| Raiders | A hooded scavenger crow: beak respirator, red eyes, ragged scrap cloak, LiPo bandolier | Antenna-whip bow, pin-header arrows |
+| Racers | A yellow-and-black wasp: pink compound eyes, teal wings, a stinger | Twin carbon-fibre daggers |
+| Whitespace | A floating white egg-bot with a teal visor and floating hands | Gimbal staff with a glowing orb (the caster) |
 
-No real brand names in the game: the clean-futurist camp is Whitespace.
+Inspired by Hyper Light Drifter and Risk of Rain: small, chunky, readable silhouettes. All designs are our own. No real brand names in the game: the clean-futurist camp is Whitespace.
 
-**luci3D, the snake: your ally.** The logo from the back of the open-dvr board, and it came from a hand-drawn zine of maze puzzles: tracing a maze and routing a trace are the same act. The snake runs inside the traces and sees the circuit from the inside. It gives hints, teaches new mechanics, and shows you the way to **the lab**.
+**luci3D, the snake: your pet companion and guide.** Small and black (the logo is white only to contrast on dark backgrounds), with a grey highlight, a purple rim light and a teal eye so it stands out on black boards. The logo from the back of the open-dvr board, and it came from a hand-drawn zine of maze puzzles: tracing a maze and routing a trace are the same act. The snake runs inside the traces and sees the circuit from the inside. It gives hints, teaches new mechanics, and shows you the way to **the lab**.
 
 **The lab.** luci3D's workshop, hidden in the circuit. You replenish yourself there and get power-ups and items.
 

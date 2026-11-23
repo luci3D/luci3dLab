@@ -1,46 +1,58 @@
-"""Character sprites as text grids (first drafts, to be redrawn in Aseprite).
+"""luci3D, the snake: the player's pet companion and guide (first draft).
 
-The guild avatars live in avatars.py. Scale: a human is about 32 px tall.
-No outlines: shapes are flat colour,
-lit from the top left, with a darker tone on the shaded side.
-Each grid character maps to a palette colour name; "." is transparent.
+Small (about half a guild avatar's height) and black. The logo is white only
+because it sits on dark backgrounds; in the game the snake is black, so it
+gets a grey highlight along its back and a purple rim light on its shadow
+side to stand out on black boards. Teal eye: it sees the circuit from the
+inside. Red tongue, like the logo.
+
+The guild avatars live in avatars.py. Grid characters map to palette colour
+names; "." is transparent.
 """
 
-# luci3D, the snake (the player's ally), zig-zagging like the logo, 6 px body. Head faces east.
-def _snake(w=54, h=32, t=6):
+
+def _snake(w=23, h=14, t=3):
     g = [["."] * w for _ in range(h)]
-    path = [(1, 25), (12, 25), (12, 1), (28, 1), (28, 20), (38, 20), (38, 10)]
+    path = [(1, 10), (5, 10), (5, 1), (11, 1), (11, 8), (15, 8), (15, 4)]  # the logo's zig-zag
 
     def fill(x0, y0, x1, y1):
         for y in range(min(y0, y1), max(y0, y1) + 1):
             for x in range(min(x0, x1), max(x0, x1) + 1):
                 if 0 <= x < w and 0 <= y < h:
-                    g[y][x] = "W"
+                    g[y][x] = "B"
     for (x0, y0), (x1, y1) in zip(path, path[1:]):
         fill(x0, y0, x1 + t - 1, y1 + t - 1)
-    for x in range(0, 6):  # tapering tail
-        g[25][x] = g[30][x] = "."
-    for x in range(0, 3):
-        g[26][x] = g[29][x] = "."
-    for y in range(6, 18):  # head, wider than the body
-        for x in range(36, 49):
-            if not ((y in (6, 17)) and x in (36, 48)):
-                g[y][x] = "W"
-    shaded = [[g[y][x] == "W" and (y + 1 >= h or g[y + 1][x] == "." or x + 1 >= w or g[y][x + 1] == ".")
-               for x in range(w)] for y in range(h)]
+    g[10][0] = g[12][0] = "."             # tail tip
+    g[10][1] = g[12][1] = "."
+    for y in range(2, 8):                 # head, a little wider than the body
+        for x in range(15, 21):
+            if not (y in (2, 7) and x in (15, 20)):
+                g[y][x] = "B"
+    solid = [[c == "B" for c in row] for row in g]
+
+    def body(x, y):
+        return 0 <= x < w and 0 <= y < h and solid[y][x]
     for y in range(h):
         for x in range(w):
-            if shaded[y][x]:
-                g[y][x] = "S"
-    for (x, y) in [(43, 9), (44, 9), (43, 10), (44, 10)]:
-        g[y][x] = "E"
-    for (x, y) in [(49, 12), (50, 12), (51, 11), (52, 10), (51, 13), (52, 14)]:
+            if not solid[y][x]:
+                continue
+            if not body(x, y - 1) or not body(x - 1, y) and not body(x, y + 1):
+                g[y][x] = "h"             # lit edge (top / left)
+            elif not body(x, y + 1) or not body(x + 1, y):
+                g[y][x] = "r"             # rim light (bottom / right)
+            else:
+                g[y][x] = "B"
+    g[2][16] = g[2][17] = "s"             # specular glints
+    g[1][6] = "s"
+    g[4][18] = "E"
+    for (x, y) in [(21, 5), (22, 5), (22, 4), (22, 6)]:
         g[y][x] = "R"
     return "\n".join("".join(r) for r in g)
 
 
 SNAKE = _snake()
-SNAKE_KEYS = {"W": "silkscreen white", "S": "silkscreen shade", "E": "ic black", "R": "logo red"}
+SNAKE_KEYS = {"B": "ic dark", "h": "ic grey", "r": "dusk purple", "s": "silkscreen shade",
+              "E": "glow teal", "R": "logo red"}
 
 
 def grid(text):

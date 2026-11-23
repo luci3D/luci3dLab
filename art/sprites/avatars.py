@@ -1,217 +1,302 @@
-"""Guild avatars, first drafts: one shared 32 px body, faction overlays on top.
+"""Guild avatars v2: mini creatures that live inside the chips, armed with
+electronics-inspired weapons. First drafts, to be redrawn in Aseprite.
 
-Front view (facing south), top-down 3/4 like the street view. Flat colour,
-no outlines, light from the top left (right side and bottom are the shade).
+Inspiration: Hyper Light Drifter and Risk of Rain (small, chunky, readable
+silhouettes; flat colour, no outlines). All designs are our own.
 
-Grid keys used by the base body (each faction maps them to palette colours):
-  H hair   k skin   K skin shade   E eyes   T torso   t torso shade
-  A left arm   a right arm   L legs   l legs shade   F feet   f feet shade
-Overlays: {row: [(col, "string"), ...]}. In a string, " " leaves the pixel
-alone, "." erases it, any other character sets that key.
+Each avatar is a 32x32 grid built from: pre-ops (drawn first, e.g. things
+behind the body), an ASCII body ("." = leave empty), then post-ops (weapons,
+hands in front). Every grid character maps to a palette colour name.
+Front view (facing south), light from the top left.
 """
+import math
 
-W, H = 20, 32
+W, H = 32, 32
 
-BASE = [
-    "....................",
-    "....................",
-    ".......HHHHHH.......",
-    "......HHHHHHHH......",
-    ".....HHHHHHHHHH.....",
-    ".....HkkkkkkkkH.....",
-    ".....kkEkkkkEkK.....",
-    ".....kkkkkkkkkK.....",
-    ".....kkkkkkkkKK.....",
-    "......kkkkkkKK......",
-    "........KKKK........",
-    ".....TTTTTTTTTt.....",
-    "....TTTTTTTTTTTt....",
-    "...ATTTTTTTTTTTta...",
-    "...ATTTTTTTTTTTta...",
-    "...ATTTTTTTTTTTta...",
-    "...ATTTTTTTTTTTta...",
-    "...ATTTTTTTTTTTta...",
-    "...kTTTTTTTTTTTtk...",
-    "...kTTTTTTTTTTTtk...",
-    "....LLLLLLLLLLLl....",
-    "....LLLLLLLLLLLl....",
-    "....LLLLl..LLLLl....",
-    "....LLLLl..LLLLl....",
-    "....LLLLl..LLLLl....",
-    "....LLLLl..LLLLl....",
-    "....LLLLl..LLLLl....",
-    "....LLLLl..LLLLl....",
-    "....lllll..lllll....",
-    "...FFFFF....FFFFF...",
-    "...FFFFf....FFFFf...",
-    "....................",
-]
+
+class Grid:
+    def __init__(self, w=W, h=H):
+        self.w, self.h = w, h
+        self.g = [["."] * w for _ in range(h)]
+
+    def set(self, x, y, ch):
+        if 0 <= x < self.w and 0 <= y < self.h:
+            self.g[y][x] = ch
+
+    def ascii(self, rows, y0=0):
+        for y, row in enumerate(rows):
+            for x, ch in enumerate(row):
+                if ch != ".":
+                    self.set(x, y0 + y, ch)
+
+    def line(self, x0, y0, x1, y1, ch):
+        n = max(abs(x1 - x0), abs(y1 - y0), 1)
+        for i in range(n + 1):
+            self.set(round(x0 + (x1 - x0) * i / n), round(y0 + (y1 - y0) * i / n), ch)
+
+    def rect(self, x0, y0, x1, y1, ch):
+        for y in range(y0, y1 + 1):
+            for x in range(x0, x1 + 1):
+                self.set(x, y, ch)
+
+    def rows(self):
+        return ["".join(r) for r in self.g]
+
+
+def run(ops, g):
+    for op in ops:
+        getattr(g, op[0])(*op[1:])
+
 
 GUILDS = {}
 
-# ---------------------------------------------------------------- BNF: bought it ready to fly
+# ---------------------------------------------------------------- BNF: the stock critter
 GUILDS["bnf"] = dict(
     title="BNF",
-    blurb="Bought it ready to fly. Stock gear, stock settings, cap and hoodie, radio always in hand.",
+    blurb="A sturdy stock critter with a camera-module head. Propeller-blade sword and a prop-guard shield: the starter kit.",
     keys={
-        "H": "copper shadow", "k": "skin", "K": "skin shade", "E": "ic black",
-        "T": "silkscreen shade", "t": "ic grey", "A": "silkscreen shade", "a": "ic grey",
-        "L": "wire blue", "l": "wire blue deep", "F": "silkscreen white", "f": "silkscreen shade",
-        "C": "logo red", "c": "burn red", "w": "silkscreen white", "R": "ic dark", "s": "silkscreen white",
-        "P": "ic grey",
+        "C": "silkscreen shade", "D": "ic grey", "B": "ic dark", "G": "wire blue deep", "g": "glow teal",
+        "R": "logo red", "r": "burn red", "S": "silkscreen shade", "s": "ic grey",
+        "F": "ic grey", "f": "ic dark", "W": "wire blue", "w": "wire blue deep", "Y": "silkscreen white",
+        "h": "copper shadow", "M": "ic dark", "P": "silkscreen white", "p": "silkscreen shade",
     },
-    over={
-        1: [(7, "CCCCCC")],
-        2: [(6, "CCCCCCCc")],
-        3: [(5, "CCCCCCCCCc")],
-        4: [(5, "cccccccccc")],
-        12: [(8, "w"), (11, "w")],
-        13: [(8, "w"), (11, "w")],
-        14: [(8, "w"), (11, "w")],
-        15: [(3, "kRRRRRRRRRRRRk")],
-        16: [(3, "kRsRRRRRRRRsRk")],
-        17: [(4, "RRRRRRRRRRRR")],
-        18: [(3, "A"), (16, "a")],
-        19: [(3, "A"), (6, "PPPPPPPP"), (16, "a")],
-    },
+    body=[
+        "", "", "",
+        "...........................WW",
+        "..........................WWw",
+        "...........CCCCCCCCCC.....WWw",
+        "..........CDDDDDDDDDDB...WWWw",
+        "..........DDDBBBBBBDDB...WWw",
+        "..........DDBBGGGGBBDB..WWWw",
+        "..........DDBGgGGGGBDB..WWw",
+        "..........DDBGGGGGGBDB.WWWw",
+        "..........DDBBGGGGBBDB.WWw",
+        "..........DDDBBBBBBDDB.Ww",
+        "..........BBBBBBBBBBBB..Y",
+        "...........RRRRRRRRRr...hh",
+        "....PPPP.RRRRRRRRRRRRRr.hh",
+        "...PDDDDpRRRSSSSSSRRRRrMM",
+        "..PDDYYDDpRRSSSSSSSRRRrMM",
+        "..PDYYYYDpRRSSSSSSSRRRr",
+        "..PDDYYDDpRRSSSSSSSRRRr",
+        "...pDDDDpRRRSSSSSSRRRrr",
+        "....pppp.RRRRssssssRRrr",
+        ".........rRRRRRRRRRRrr",
+        "..........rrrrrrrrrrr",
+        "..........FFF.....FFF",
+        "..........FFf.....FFf",
+        ".........FFFf....FFFf",
+    ],
 )
 
-# ---------------------------------------------------------------- DIY punk: self-built everything
+# ---------------------------------------------------------------- DIY Punk: the gremlin
 GUILDS["diy"] = dict(
     title="DIY PUNK",
-    blurb="Built every part themselves. Pink mohawk, teal goggles, patched jacket, copper coil on the arm, iron in hand.",
+    blurb="A grinning gremlin with a pink wire mohawk, teal goggles, a patched vest, a copper coil on the arm and a JST-plug tail. Soldering-iron lance with a glowing tip.",
     keys={
-        "H": "signal pink", "S": "skin deep shade", "k": "skin deep", "K": "skin deep shade", "E": "ic black",
-        "G": "ic dark", "g": "glow teal", "T": "dusk purple", "t": "ic dark", "A": "dusk purple", "a": "ic dark",
-        "X": "signal pink", "p": "copper", "y": "flux", "L": "ic grey", "l": "ic dark", "F": "ic black",
-        "f": "ic black", "o": "copper", "O": "copper shadow", "i": "silkscreen shade", "r": "logo red",
+        "M": "signal pink", "m": "copper", "U": "graffiti purple", "u": "dusk purple", "G": "ic dark",
+        "g": "glow teal", "T": "silkscreen white", "B": "ic black", "J": "ic grey", "j": "ic dark",
+        "y": "flux", "o": "copper", "W": "silkscreen white", "w": "silkscreen shade", "q": "ic grey",
+        "h": "copper", "R": "logo red", "P": "signal pink",
     },
-    over={
-        0: [(8, "HHHH")],
-        1: [(8, "HHHH")],
-        2: [(7, "SHHHHS")],
-        3: [(6, "SSHHHHSS")],
-        4: [(5, "SSSHHHHSSS")],
-        5: [(5, "S"), (14, "S")],
-        6: [(5, "GgggGGgggG")],
-        11: [(9, "XX")],
-        12: [(9, "XX")],
-        13: [(3, "o"), (5, "pp"), (9, "XX")],
-        14: [(3, "O"), (5, "pp"), (9, "XX")],
-        15: [(3, "o"), (9, "XX"), (17, "r")],
-        16: [(3, "O"), (9, "XX"), (12, "yy"), (17, "i")],
-        17: [(3, "o"), (9, "XX"), (12, "yy"), (17, "i")],
-        18: [(9, "XX"), (17, "i")],
-        24: [(5, "pp")],
-        25: [(5, "pp")],
-        26: [(4, "FFFFF"), (11, "FFFFf")],
-        27: [(4, "FFFFF"), (11, "FFFFf")],
-        28: [(4, "FFFFF"), (11, "FFFFf")],
-    },
+    pre=[],
+    body=[
+        "",
+        "",
+        "..............m.m",
+        ".............mMmMm",
+        "..............MMM",
+        ".............MMMMM",
+        "..........UUUUMMMUUUu",
+        ".....uU..UUUUUUUUUUUUu..Uu",
+        "......uUUUGGGGUUUGGGGUUUu",
+        ".......uUUGggGUUUGggGUUu",
+        ".........UGGGGUUUGGGGUUu",
+        ".........UUUUUUUUUUUUUu",
+        ".........UBTBTBTBTBTBUu",
+        "..........uUBBBBBBBBUu",
+        "...........uuUUUUUUuu",
+        ".........JJJJJJJJJJJJj",
+        ".......UUJJJJyyJJJJJJjUU",
+        "......UU.JJJJyyJJJJJJjUUUU",
+        ".....UU..JJJJJJJJJJJJj",
+        ".....oU..JJJJJJJJJJJJj",
+        ".....Uo..jjjjjjjjjjjjj",
+        ".....oU...UUUUUUUUUUu",
+        "....UUU...UUUUUUUUUUu",
+        "..........uUUUUUUUUuu",
+        "..........UUu....UUu",
+        ".........UUu.....UUu",
+        ".........uu.......uu",
+        "........UUUu.....UUUu",
+    ],
+    post=[
+        ("line", 10, 23, 6, 26, "u"), ("line", 6, 26, 3, 25, "u"), ("rect", 1, 22, 3, 24, "W"),
+        ("set", 3, 24, "w"), ("set", 1, 24, "w"),
+        ("line", 26, 6, 26, 17, "W"), ("line", 27, 6, 27, 17, "w"),
+        ("line", 26, 18, 26, 28, "q"), ("line", 27, 18, 27, 28, "j"),
+        ("rect", 26, 21, 27, 21, "M"), ("rect", 26, 25, 27, 25, "M"),
+        ("rect", 26, 4, 27, 5, "h"), ("set", 26, 3, "R"), ("set", 26, 2, "R"), ("set", 26, 1, "P"),
+        ("set", 25, 2, "P"), ("set", 27, 1, "P"),
+        ("rect", 24, 16, 26, 16, "U"), ("set", 27, 16, "u"), ("rect", 25, 17, 27, 17, "u"),
+    ],
 )
 
-# ---------------------------------------------------------------- Raiders: scavengers
+# ---------------------------------------------------------------- Raiders: the scavenger crow
 GUILDS["raider"] = dict(
     title="RAIDER",
-    blurb="Scavengers. Scrap hood, respirator and red goggles, a LiPo bandolier, salvaged shoulder plate, a whip antenna off the pack.",
+    blurb="A hooded scavenger crow: beak respirator, red eyes, a ragged scrap cloak with a LiPo bandolier. Antenna-whip bow, pin-header arrows.",
     keys={
-        "H": "fr4 shade", "h": "copper shadow", "Q": "ic dark", "q": "ic grey", "g": "logo red", "G": "ic black",
-        "T": "fr4 edge", "t": "fr4 shade", "A": "fr4 shade", "a": "copper shadow", "b": "wire yellow",
-        "B": "wire blue", "Z": "ic black", "M": "ic grey", "m": "silkscreen shade", "L": "copper shadow",
-        "l": "ic black", "F": "ic dark", "f": "ic black", "k": "oxide red", "K": "burn red",
-        "n": "silkscreen shade", "N": "logo red", "E": "ic black",
+        "E": "fr4 edge", "e": "fr4 shade", "c": "copper shadow", "K": "ic black", "R": "logo red",
+        "Q": "ic grey", "q": "ic dark", "Z": "ic black", "b": "wire yellow", "B": "wire blue",
+        "L": "ic grey", "l": "ic dark", "S": "silkscreen shade", "s": "ic grey", "w": "copper",
+        "a": "ic dark", "G": "enig gold", "p": "oxide red",
     },
-    over={
-        0: [(17, "N")],
-        1: [(7, "HHHHHH"), (17, "n")],
-        2: [(6, "HHHHHHHh"), (17, "n")],
-        3: [(5, "HHHHhHHHHh"), (17, "n")],
-        4: [(4, "HHHHHHHHHHHh"), (17, "n")],
-        5: [(4, "HHGGGGGGGGhh"), (17, "n")],
-        6: [(4, "HHGggGGggGhh"), (17, "n")],
-        7: [(4, "HHQQQQQQQQhh"), (17, "n")],
-        8: [(4, "HqQQQQQQQQqh"), (17, "n")],
-        9: [(4, "HqQQQQQQQQqh"), (17, "n")],
-        10: [(5, "HHHHHHHHHh"), (16, "hn")],
-        11: [(3, "MmM"), (16, "h")],
-        12: [(3, "MMM"), (13, "Z"), (16, "h")],
-        13: [(11, "BBZ")],
-        14: [(10, "Z")],
-        15: [(8, "bbZ")],
-        16: [(7, "Z")],
-        17: [(5, "BBZ")],
-        18: [(5, "Z")],
-        19: [(4, "TLTTLTTTLTTt")],
-        23: [(4, "KKKKK"), (11, "KKKKK")],
-        26: [(4, "KKKKK"), (11, "KKKKK")],
-    },
+    pre=[
+        ("rect", 21, 9, 24, 13, "c"),
+        ("line", 22, 6, 22, 9, "a"), ("line", 24, 7, 24, 9, "a"), ("line", 23, 5, 23, 9, "a"),
+        ("set", 22, 5, "G"), ("set", 24, 6, "G"), ("set", 23, 4, "G"),
+    ],
+    body=[
+        "",
+        "...............E",
+        "..............EEe",
+        ".............EEEEe",
+        "............EEEEEee",
+        "...........EEEEEEEee",
+        "..........EEEKKKKKKee",
+        "..........EEKKRKKRKKe",
+        "..........EEKKKQQKKKe",
+        "..........eEKKQQQqKKe",
+        "...........eEKQQqKKe",
+        "..........eeEEKQqKEee",
+        ".........eEEEEEEqEEEEe",
+        "........eEEZEEEEEEEEEEe",
+        ".......eEEEEZEEEEEEEEEEe",
+        ".......eEEEEEbEEEEEEEEEe",
+        "......eEEEEEEEZEEEEEEEEee",
+        "......eEEEEEEEEBEEEEEEEee",
+        "......eEEEEEEEEEZEEEEEEee",
+        "......eeEEEEEEEEEbEEEEeee",
+        "......eeeEEEEEEEEEZEEEeee",
+        "......eccEEEEEEEEEEEEEcce",
+        ".......ceeEEEEEEEEEEEeec",
+        ".......c.eeEEEcEEEEEee.c",
+        "........c.e.ecE.eEe.e.c",
+        "............LL...LL",
+        "............Ll...Ll",
+        "............Ll...Ll",
+        "...........LLLL.LLLL",
+        "...........L.L..L.L",
+    ],
+    post=[("line", 5, 7, 5, 25, "w")]
+    + [("set", round(4 - 3 * math.sin(math.pi * (y - 6) / 20)), y, "S") for y in range(6, 27)]
+    + [("set", round(4 - 3 * math.sin(math.pi * (y - 6) / 20)) + 1, y, "s") for y in range(8, 25)]
+    + [("rect", 1, 15, 3, 16, "p"), ("rect", 4, 16, 6, 16, "e")],
 )
 
-# ---------------------------------------------------------------- Racers: gates and stopwatches
+# ---------------------------------------------------------------- Racers: the wasp
 GUILDS["racer"] = dict(
     title="RACER",
-    blurb="Gates and lap times. Slim goggles with a pink lens, yellow race jacket with a black stripe and a number, gloves, red shoes.",
+    blurb="A yellow-and-black wasp built for speed: pink compound eyes, teal wings, a stinger. Twin carbon-fibre daggers.",
     keys={
-        "H": "ic black", "k": "skin", "K": "skin shade", "E": "ic black", "V": "ic black", "v": "signal pink",
-        "T": "wire yellow", "t": "enig gold", "A": "ic black", "a": "ic black", "Z": "ic black",
-        "n": "silkscreen white", "g": "ic dark", "L": "ic dark", "l": "ic black", "Y": "wire yellow",
-        "F": "logo red", "f": "burn red",
+        "Y": "wire yellow", "y": "enig gold", "K": "ic dark", "k": "ic black", "P": "signal pink",
+        "p": "graffiti purple", "W": "silkscreen white", "T": "glow teal", "t": "signal teal",
+        "q": "ic grey", "C": "ic grey", "G": "wire yellow",
     },
-    over={
-        4: [(5, "V"), (14, "V")],
-        5: [(5, "VVVVVVVVVV")],
-        6: [(5, "VvvvvvvvvV")],
-        7: [(5, "VVVVVVVVVV")],
-        11: [(7, "ZZZZZ")],
-        12: [(12, "ZZ")],
-        13: [(5, "nnn"), (11, "ZZ")],
-        14: [(7, "n"), (10, "ZZ")],
-        15: [(6, "n"), (9, "ZZ")],
-        16: [(6, "n"), (8, "ZZ")],
-        17: [(7, "ZZ")],
-        18: [(3, "g"), (6, "ZZ"), (16, "g")],
-        19: [(3, "g"), (16, "g")],
-        **{r: [(4, "Y"), (15, "Y")] for r in range(20, 28)},
-    },
+    body=[
+        "",
+        "...........K.......K",
+        "............K.....K",
+        ".............K...K",
+        "............YYYYYYYy",
+        "...........YYYYYYYYYy",
+        "..........PPPPYYYPPPPp",
+        "..........PWPPYYYPWPPp",
+        "..........pPPPYYYPPPpp",
+        "...........pppKKKKppp",
+        "............KK.KK.KK",
+        "......tTT....KKKKKK....TTt",
+        ".....tTTTT.KKKKKKKKk.TTTTt",
+        "....tTTTTTKKYYYYYYKKkTTTTTt",
+        ".....tTTTKKKYYYYYYKKKkTTTt",
+        "......tt.K.KKKKKKKKk.K.tt",
+        "........K..YYYYYYYYy..K",
+        "............KKKKKKKk",
+        "............YYYYYYYy",
+        "............KKKKKKKk",
+        ".............YYYYYy",
+        ".............KKKKKk",
+        "..............YYYy",
+        "..............KKKk",
+        "...............Kk",
+        "...............K",
+    ],
+    post=[
+        ("set", 11, 17, "q"), ("line", 10, 18, 10, 20, "q"), ("set", 9, 21, "q"),
+        ("set", 20, 17, "q"), ("line", 21, 18, 21, 20, "q"), ("set", 22, 21, "q"),
+        ("line", 7, 18, 4, 23, "C"), ("line", 8, 18, 5, 23, "W"), ("rect", 8, 17, 9, 17, "G"),
+        ("line", 24, 18, 27, 23, "C"), ("line", 23, 18, 26, 23, "W"), ("rect", 22, 17, 23, 17, "G"),
+    ],
 )
 
-# ---------------------------------------------------------------- Whitespace: the clean futurists
+
+# ---------------------------------------------------------------- Whitespace: the floating egg-bot
+def _whitespace():
+    g = Grid()
+    cx, cy, rx, ry = 15.5, 14.0, 6.6, 10.2
+    for y in range(H):
+        for x in range(W):
+            u, v = (x - cx) / rx, (y - cy) / ry
+            if u * u + v * v <= 1:
+                k = 0.75 * u + 0.6 * v
+                g.set(x, y, "g" if k > 0.85 else "w" if k > 0.35 else "W")
+    for x in range(11, 21):
+        g.set(x, 9, "V")
+        g.set(x, 10, "V")
+    for x in (19, 20):
+        g.set(x, 9, "v")
+        g.set(x, 10, "v")
+    for x in (14, 15, 16):
+        g.set(x, 17, "V")
+    g.rect(14, 25, 16, 25, "V")
+    g.set(15, 26, "v")
+    g.set(15, 27, "t")
+    for (hx, hy) in [(6, 15), (24, 15)]:  # floating hands
+        g.rect(hx - 1, hy - 1, hx + 1, hy + 1, "W")
+        g.set(hx + 1, hy + 1, "w")
+        g.set(hx - 1, hy + 1, "w")
+    g.line(26, 8, 26, 27, "W")
+    g.line(27, 8, 27, 27, "w")
+    g.set(24, 15, "W")
+    g.rect(25, 14, 26, 16, "W")
+    for a in range(0, 360, 20):  # gimbal ring around a floating orb
+        g.set(round(26.5 + 3.4 * math.cos(math.radians(a))), round(4.5 + 3.4 * math.sin(math.radians(a))),
+              "w" if 0 < a < 180 else "W")
+    g.rect(26, 4, 27, 5, "V")
+    g.set(26, 4, "T")
+    return g.rows()
+
+
 GUILDS["whitespace"] = dict(
     title="WHITESPACE",
-    blurb="The clean futurists: everything white, glossy and rounded, a teal visor, and a little camera drone that follows them around.",
+    blurb="A floating egg-bot, white and glossy, with a teal visor and floating hands. Gimbal staff with a glowing orb: the caster.",
     keys={
-        "H": "silkscreen white", "h": "silkscreen shade", "v": "glow teal", "V": "signal teal",
-        "k": "skin", "K": "skin shade", "E": "ic black", "T": "silkscreen white", "t": "silkscreen shade",
-        "A": "silkscreen white", "a": "silkscreen shade", "c": "glow teal", "L": "silkscreen white",
-        "l": "silkscreen shade", "F": "silkscreen shade", "f": "ic grey", "d": "silkscreen white",
-        "D": "silkscreen shade", "x": "glow teal",
+        "W": "silkscreen white", "w": "silkscreen shade", "g": "ic grey", "V": "glow teal", "v": "signal teal",
+        "T": "silkscreen white", "t": "signal teal deep",
     },
-    over={
-        0: [(15, "dd.dd")],
-        1: [(16, "DxD")],
-        2: [(7, "HHHHHH"), (15, "dd.dd")],
-        3: [(6, "HHHHHHHh")],
-        4: [(5, "HHHHHHHHHh")],
-        5: [(5, "Hvvvvvvvvh")],
-        6: [(5, "HvvvvvvvVh")],
-        7: [(5, "H"), (14, "h")],
-        11: [(5, "."), (8, "cc"), (14, ".")],
-        12: [(4, "."), (15, ".")],
-        20: [(4, "cccccccccccc")],
-        29: [(3, "FFFFF"), (12, "FFFFf")],
-        30: [(3, "ccccc"), (12, "ccccc")],
-    },
+    rows=_whitespace(),
 )
 
 ORDER = ["bnf", "diy", "raider", "racer", "whitespace"]
 
 
 def build(name):
-    g = [list(r) for r in BASE]
-    for row, items in GUILDS[name]["over"].items():
-        for col, s in items:
-            for i, ch in enumerate(s):
-                if ch == " ":
-                    continue
-                g[row][col + i] = "." if ch == "." else ch
-    return ["".join(r) for r in g]
+    gd = GUILDS[name]
+    if "rows" in gd:
+        return gd["rows"]
+    g = Grid()
+    run(gd.get("pre", []), g)
+    g.ascii(gd["body"])
+    run(gd.get("post", []), g)
+    return g.rows()

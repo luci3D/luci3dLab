@@ -23,10 +23,6 @@ P = palette.load()
 OUT = HERE / "out"
 OUT.mkdir(exist_ok=True)
 
-for row in avatars.BASE:
-    assert len(row) == avatars.W, row
-
-
 def sprite_image(grid, keys):
     im = Image.new("RGBA", (len(grid[0]), len(grid)), (0, 0, 0, 0))
     for y, row in enumerate(grid):
@@ -45,7 +41,7 @@ snake = sprite_image(sprites.grid(sprites.SNAKE), sprites.SNAKE_KEYS)
 
 # line-up on a strip of black board
 SLOT, PAD = 40, 14
-LW = PAD * 2 + SLOT * len(imgs) + snake.width + 10
+LW = PAD * 2 + SLOT * len(imgs) + snake.width + 4
 LH = 52
 strip = Image.new("RGB", (LW, LH), P["black mask"])
 d = ImageDraw.Draw(strip)
@@ -58,13 +54,13 @@ x = PAD
 for name, im in imgs.items():
     fx = x + (SLOT - im.width) // 2
     fy = 44 - im.height + 1
-    d.ellipse([fx + 3, 41, fx + im.width - 3, 46], fill=shadow)
-    if name == "whitespace":                                     # the drone's own shadow
-        d.ellipse([fx + 16, 45, fx + 22, 47], fill=shadow)
+    cx = fx + 15.5                                                # every body is centred on the grid
+    half = 7 if name != "whitespace" else 5                       # it floats: a smaller shadow
+    d.ellipse([cx - half, 42, cx + half, 45], fill=shadow)
     strip.paste(im, (fx, fy), im)
     x += SLOT
-sx, sy = x + 4, 44 - snake.height + 2
-d.polygon([(sx + 3, sy + 30), (sx + 52, sy + 30), (sx + 52, sy + 33), (sx + 3, sy + 33)], fill=shadow)
+sx, sy = x + 2, 44 - snake.height + 1
+d.polygon([(sx + 1, sy + 12), (sx + 22, sy + 12), (sx + 22, sy + 15), (sx + 1, sy + 15)], fill=shadow)
 strip.paste(snake, (sx, sy), snake)
 
 S = 6
