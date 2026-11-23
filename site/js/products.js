@@ -19,8 +19,8 @@ window.PRODUCTS = [
     paypal: "",
     image: "",
     summary: "Turns your analog FPV camera's video into MIPI CSI-2 for a Luckfox Pico, and carries the DVR's microphone. The heart of the DIY DVR kit.",
-    points: ["TP9950 video decoder, real 50/60 fps field capture", "MEMS microphone for in-sync audio", "Taps the camera line in parallel: zero added latency", "Open hardware: KiCad files, Gerbers and BOM on GitHub"],
-    link: "https://github.com/luci3D/open-dvr/tree/main/decoder-board",
+    points: ["TP9950 video decoder, real 50/60 fps field capture", "MEMS microphone for in-sync audio", "Taps the camera line in parallel: zero added latency", "Runs the open-source open-dvr recorder"],
+    link: "dvr.html#roadmap",
   },
   {
     id: "imu-breakout",
