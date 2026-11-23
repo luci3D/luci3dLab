@@ -38,3 +38,7 @@ Columns: 4
  30  30  36	ic black
 222 170 130	skin
 176 118  88	skin shade
+ 20  20  25	black mask
+ 12  12  16	black mask deep
+ 36  36  44	black trace
+ 50  50  60	black trace highlight

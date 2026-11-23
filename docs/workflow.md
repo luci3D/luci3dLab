@@ -10,9 +10,10 @@
 
 | # | Step | Status |
 |---|---|---|
-| 0 | Style and sizes: top-down 3/4, flat/no outlines, 32 px humans, 480×270 screen, palette | Done (see README) |
+| 0 | Style and sizes: flat/no outlines, black boards, city view in perspective, street view top-down with 32 px humans | Done (see README) |
 | 1 | Brand kit: palette, logo, wordmark, pixel font, story | Palette, logo and story in; wordmark and font to do |
-| 1b | The Stack: mock-up → tileset (roads, chips, pads, vias, grime overlays) | Mock-up v1 in `art/world/` |
+| 1b | The Stack: city view (perspective) → street-view tileset (roads, chips, pads, vias, grime overlays) | City view v2 in `art/world/` |
+| 1c | Characters: 4 guild avatars (32 px), luci3D the snake as ally | Next |
 | 2 | Website: home (animated FC city), open-dvr, shop, game teaser, links, email sign-up | Next |
 | 3 | Shop: Stripe Payment Links (no monthly fee) + a separate PayPal button | Business: Canada |
 | 4 | YouTube kit: profile 800×800, banner 2560×1440, intro animation (thumbnails are designed separately) | After the site |

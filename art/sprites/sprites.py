@@ -5,7 +5,7 @@ lit from the top left, with a darker tone on the shaded side.
 Each grid character maps to a palette colour name; "." is transparent.
 """
 
-# A pilot (human, for scale): FPV goggles on, radio backpack antenna.
+# A pilot (human, for scale only; the guild avatars replace it): FPV goggles on, radio backpack antenna.
 PILOT = """
 .............a..
 .............a..
@@ -47,7 +47,7 @@ PILOT_KEYS = {
     "s": "ic black",
 }
 
-# micro luci3D: the snake, zig-zagging like the logo, 6 px body. Head faces east.
+# luci3D, the snake (the player's ally), zig-zagging like the logo, 6 px body. Head faces east.
 def _snake(w=54, h=32, t=6):
     g = [["."] * w for _ in range(h)]
     path = [(1, 25), (12, 25), (12, 1), (28, 1), (28, 20), (38, 20), (38, 10)]

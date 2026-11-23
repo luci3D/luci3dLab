@@ -1,10 +1,21 @@
 # The story (working draft)
 
-## Two luci3Ds
+## Characters
 
-**luci3D, the human.** An underdog FPV electronics bootlegger. He repairs the micro components before he gives up on a board, and he always tries to get things back in the air and squeeze the most out of old equipment. He's the one you call to crack firmware, modify electronics or build something custom. One of the few 3D flight pilots in the human world. He flies digital too, but **analog is king**.
+**The player: the quest taker.** Not luci3D. You take quests (repairs, rescues, firmware jobs) and pick an avatar from one of four guilds:
 
-**micro luci3D, the snake.** The same spirit at circuit scale. The snake runs inside the traces and sees the circuit from the inside. It's the logo on the back of the open-dvr board, and it came from a hand-drawn zine of maze puzzles: tracing a maze and routing a trace are the same act.
+| Guild | Look |
+|---|---|
+| BNF normie | Bought it ready to fly: stock gear, stock settings, everyday clothes |
+| DIY cyberpunk | Self-built everything: patched jackets, exposed wiring, soldering scars |
+| Raider | Rough, scavenged gear, flies anywhere (to define) |
+| Clean futurist | Slick, white, glossy, rounded; Frutiger-style "whitespace" design. The big-brand ready-made camp. In-game it gets its own name, not a real brand's |
+
+**luci3D, the snake: your ally.** The logo from the back of the open-dvr board, and it came from a hand-drawn zine of maze puzzles: tracing a maze and routing a trace are the same act. The snake runs inside the traces and sees the circuit from the inside. It gives hints, teaches new mechanics, and shows you the way to **the lab**.
+
+**The lab.** luci3D's workshop, hidden in the circuit. You replenish yourself there and get power-ups and items.
+
+**luci3D, the human (background).** An underdog FPV electronics bootlegger. He repairs the micro components before he gives up on a board, always tries to get things back in the air, and squeezes the most out of old equipment. The one you call to crack firmware, modify electronics or build something custom. One of the few 3D flight pilots in the human world. He flies digital too, but analog is king. How he relates to the snake is open.
 
 ## The world: boards are cities
 
@@ -41,6 +52,6 @@ The first city is **the Stack**: an old FPV flight controller and its 4-in-1 ESC
 
 ## Open questions
 
-- Where is the human luci3D in the game? The client who calls in the job, or the voice on the radio?
+- Who gives out the quests? The human luci3D, the guilds, or the boards' own residents?
 - Enemies: corrosion, cold joints, ESD sparks, firmware locks, magic smoke spirits?
 - Zine symbols are decided (entry/exit, story blocks, items): see [`../zine/README.md`](../zine/README.md). What the items do is still open.
