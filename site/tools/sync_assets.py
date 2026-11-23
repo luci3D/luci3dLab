@@ -18,8 +18,9 @@ import palette  # noqa: E402
 IMG = SITE / "img"
 IMG.mkdir(exist_ok=True)
 COPIES = {
+    "art/world/out/clean-v1.png": "clean.png",
+    "art/world/out/clean-v1-plan.png": "clean-plan.png",
     "art/world/out/stack-v2.png": "stack.png",
-    "art/world/out/stack-v2-plan.png": "stack-plan.png",
     "brand/logo/luci3d-snake-1x.png": "logo-1x.png",
     "brand/logo/luci3d-snake-8x.png": "logo-8x.png",
     **{f"zine/maze-0{i}.png": f"maze-0{i}.png" for i in range(1, 6)},

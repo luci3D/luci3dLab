@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """The Stack, v2: an old flight controller and a 4-in-1 ESC as one city, in perspective.
 
+(Self-contained original. New scenes use citykit.py, which grew out of this script.)
+
 Two passes:
   1. Plan: the boards drawn flat, top-down (black mask, white silkscreen, copper,
      grime, and the top face of every part). Every part also registers a 3D object.

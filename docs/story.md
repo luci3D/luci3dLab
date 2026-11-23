@@ -46,6 +46,8 @@ The first city is **the Stack**: an old FPV flight controller and its 4-in-1 ESC
 | USB port | The harbour, the link to the outside world |
 | Silkscreen | Street signs. Graffiti tags sit on top of them |
 
+**Two cities, two jobs.** The beaten Stack above is the game's world. The Clean Stack is the showroom for the website and the shop: a 4-in-1 ESC, a flight controller and our all-in-one DVR in mint condition, wires bundled, every LED lit, data running. The FC and ESC there are generic, laid out after the TBS Lucid F4 FC and 4in1 ESC drawings, with no TBS branding.
+
 ## Tone
 
 - Underdog, resourceful, fix-it-don't-bin-it.

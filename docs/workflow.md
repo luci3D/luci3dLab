@@ -12,7 +12,7 @@
 |---|---|---|
 | 0 | Style and sizes: flat/no outlines, black boards, city view in perspective, street view top-down with 32 px humans | Done (see README) |
 | 1 | Brand kit: palette, logo, wordmark, pixel font, story | Palette, logo and story in; wordmark and font to do |
-| 1b | The Stack: city view (perspective) → street-view tileset (roads, chips, pads, vias, grime overlays) | City view v2 in `art/world/` |
+| 1b | Board cities: the beaten Stack (game) and the Clean Stack (website hero); then a street-view tileset | Both in `art/world/` (shared engine: `citykit.py`) |
 | 1c | Characters: 5 guild creatures with weapons (32 px), luci3D the snake as a pet | Front-view drafts in `art/sprites/`; on hold |
 | 2 | Website: home, open-dvr, shop, game teaser, links, email sign-up | First version in `site/` (sign-up and YouTube link still to add) |
 | 3 | Shop: Stripe Payment Links (no monthly fee) + a separate PayPal button | Business: Canada |
