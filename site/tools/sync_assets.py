@@ -21,6 +21,7 @@ COPIES = {
     "art/world/out/clean-v1.png": "clean.png",
     "art/world/out/clean-v1-dvr.png": "dvr-board.png",
     "art/lab/out/lab-v1.png": "lab.png",
+    "art/lab/out/line-v1.png": "line.png",
     "art/world/out/stack-v2.png": "stack.png",
     "brand/logo/luci3d-snake-1x.png": "logo-1x.png",
     "brand/logo/luci3d-snake-8x.png": "logo-8x.png",

@@ -5,7 +5,7 @@ Brand, website, shop and game for **luci3D hardware** (working name, it may chan
 | Folder | What |
 |---|---|
 | [`brand/`](brand/) | Palette (`luci3d.gpl`, load it in Aseprite), the snake logo and the scripts that draw it |
-| [`art/`](art/) | [`art/world/`](art/world/): board cities. The Clean Stack (ESC + FC + our DVR, the website hero) and the beaten Stack (the game's first level). [`art/lab/`](art/lab/): the Lab, luci3D's workshop. [`art/sprites/`](art/sprites/): the five guild creatures and luci3D the snake (drafts) |
+| [`art/`](art/) | [`art/world/`](art/world/): board cities. The Clean Stack (ESC + FC + our DVR, the website hero) and the beaten Stack (the game's first level). [`art/lab/`](art/lab/): the Lab, luci3D's workshop, and the Line, its manufacturing bay. [`art/sprites/`](art/sprites/): the five guild creatures and luci3D the snake (drafts) |
 | [`site/`](site/) | The website: home, Open DVR, shop, zine maze game ([how to edit and publish](site/README.md)) |
 | [`zine/`](zine/) | The original hand-drawn maze zine: proof-of-concept levels and inspiration |
 | [`docs/`](docs/) | [The story](docs/story.md) and [the workflow](docs/workflow.md) |
@@ -28,5 +28,6 @@ python3 brand/tools/make_logo.py      # snake logo PNGs
 python3 art/world/make_clean.py       # the Clean Stack: website hero + flat plan
 python3 art/world/make_stack.py       # the beaten Stack: game art + flat plan
 python3 art/lab/make_lab.py           # the Lab: shop header (and the game's lab)
+python3 art/lab/make_factory.py       # the Line: the Lab's manufacturing bay
 python3 art/sprites/make_avatars.py   # guild avatars + line-up
 ```
