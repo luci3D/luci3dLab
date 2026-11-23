@@ -389,11 +389,6 @@ def led(x, y, glow, body):
     rect(x + 7, y + 3, 4, 3, SILKSCREEN_WHITE)
 
 
-def mast(x, y, z0, h, light=LOGO_RED):
-    z = box(x, y, 4, 4, h / HS, SILKSCREEN_SHADE, IC_GREY, z0=z0, flat=True)
-    box(x - 2, y - 2, 8, 8, 3 / HS, light, BURN_RED, z0=z, flat=True)
-
-
 # ------------------------------------------------------------------ FC parts
 for (hx, hy) in [(44, 44), (516, 44), (44, 516), (516, 516)]:
     hole(*F(hx, hy))
@@ -412,7 +407,6 @@ box(X0 + 104, Y0 + 104, 40, 28, 10, IC_GREY, IC_DARK, hi=SILKSCREEN_SHADE, z0=ro
 for i in range(4):
     rect(X0 + 108 + i * 9, Y0 + 110, 5, 16, IC_DARK)
 box(X0 + 20, Y0 + 120, 16, 16, 6, IC_GREY, IC_DARK, z0=roof)                      # vent
-mast(X0 + 132, Y0 + 30, roof, 70)
 blob(X0 + 60, Y0 + 140, 20, None, ry=8)
 text("L3D", X0 + 22, Y0 + 92, SIGNAL_PINK, 4)
 
@@ -442,9 +436,8 @@ box(*F(404, 270), 34, 22, 6, IC_DARK, IC_BLACK, hi=IC_GREY)
 OX, OY = F(40, 340)  # OSD: the TV station
 legs([OX + 8 + 10 * k for k in range(10)], OY - 14, -1, 14, wid=4)
 legs([OX + 8 + 10 * k for k in range(10)], OY + 44, 1, 14, wid=4)
-osd_roof = box(OX, OY, 116, 44, 6, IC_DARK, IC_BLACK, hi=IC_GREY)
+box(OX, OY, 116, 44, 6, IC_DARK, IC_BLACK, hi=IC_GREY)
 text("AT7456E", OX + 12, OY + 16, IC_GREY, 2)
-mast(OX + 92, OY + 18, osd_roof, 90)
 text("OSD", OX, OY - 22, SILKSCREEN_WHITE)
 
 LX, LY = F(404, 430)  # flash

@@ -42,3 +42,5 @@ Columns: 4
  12  12  16	black mask deep
  36  36  44	black trace
  50  50  60	black trace highlight
+141  94  66	skin deep
+104  66  48	skin deep shade

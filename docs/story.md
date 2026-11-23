@@ -2,14 +2,17 @@
 
 ## Characters
 
-**The player: the quest taker.** Not luci3D. You take quests (repairs, rescues, firmware jobs) and pick an avatar from one of four guilds:
+**The player: the quest taker.** Not luci3D. You take quests (repairs, rescues, firmware jobs) and pick an avatar from one of five guilds (working names; avatar drafts in [`../art/sprites/`](../art/sprites/)):
 
-| Guild | Look |
-|---|---|
-| BNF normie | Bought it ready to fly: stock gear, stock settings, everyday clothes |
-| DIY cyberpunk | Self-built everything: patched jackets, exposed wiring, soldering scars |
-| Raider | Rough, scavenged gear, flies anywhere (to define) |
-| Clean futurist | Slick, white, glossy, rounded; Frutiger-style "whitespace" design. The big-brand ready-made camp. In-game it gets its own name, not a real brand's |
+| Guild | Who | Look |
+|---|---|---|
+| BNF | Bought it ready to fly | Stock gear, red cap, beige hoodie, jeans, radio always in hand |
+| DIY Punk | Built every part themselves | Pink mohawk, teal goggles, patched jacket, copper coil on the arm, soldering iron |
+| Raiders | Scavengers | Scrap hood, respirator and red goggles, LiPo bandolier, salvaged shoulder plate, whip antenna |
+| Racers | Gates and lap times | Slim goggles with a pink lens, yellow race jacket with a number, gloves, red shoes |
+| Whitespace | The clean futurists: the big-brand, ready-made camp | All white, glossy and rounded, teal visor, a little camera drone that follows them |
+
+No real brand names in the game: the clean-futurist camp is Whitespace.
 
 **luci3D, the snake: your ally.** The logo from the back of the open-dvr board, and it came from a hand-drawn zine of maze puzzles: tracing a maze and routing a trace are the same act. The snake runs inside the traces and sees the circuit from the inside. It gives hints, teaches new mechanics, and shows you the way to **the lab**.
 

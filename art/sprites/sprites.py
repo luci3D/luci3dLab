@@ -1,51 +1,10 @@
 """Character sprites as text grids (first drafts, to be redrawn in Aseprite).
 
-Scale: a human is about 32 px tall. No outlines: shapes are flat colour,
+The guild avatars live in avatars.py. Scale: a human is about 32 px tall.
+No outlines: shapes are flat colour,
 lit from the top left, with a darker tone on the shaded side.
 Each grid character maps to a palette colour name; "." is transparent.
 """
-
-# A pilot (human, for scale only; the guild avatars replace it): FPV goggles on, radio backpack antenna.
-PILOT = """
-.............a..
-.............a..
-.....hhhhhh..a..
-....hhhhhhhh.a..
-....hhhhhhhhha..
-...gggggggggg...
-...gLLggggLLg...
-...gggggggggG...
-....kkkkkkkK....
-.....kkkkkK.....
-......KKKK......
-...jjjjjjjjjJ...
-..jjjjjbjjjjjJ..
-..jjjjjbjjjjjJ..
-..jjjjjjbjjjjJ..
-..jjjjjjbjjjjJ..
-..jjjjjjjjjjjJ..
-..kjjjjjjjjjJK..
-..k.jjjjjjjjJK..
-....jjjjjjjjJ...
-....JJJJJJJJJ...
-....pppppppppP..
-....pppppppppP..
-....pppp.ppppP..
-....pppp.ppppP..
-....pppp.ppppP..
-....pppP.ppppP..
-....pppP.ppppP..
-....pppP.ppppP..
-....PPPP.PPPP...
-...ssss...ssss..
-...ssss...ssss..
-"""
-PILOT_KEYS = {
-    "a": "silkscreen shade", "h": "ic black", "g": "ic dark", "G": "ic black",
-    "L": "glow teal", "k": "skin", "K": "skin shade", "j": "graffiti purple",
-    "J": "dusk purple", "b": "copper shadow", "p": "ic grey", "P": "ic dark",
-    "s": "ic black",
-}
 
 # luci3D, the snake (the player's ally), zig-zagging like the logo, 6 px body. Head faces east.
 def _snake(w=54, h=32, t=6):
