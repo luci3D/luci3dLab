@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zine mazes · luci3D hardware</title>
+<meta name="description" content="Route a trace through the original hand-drawn luci3D zine mazes.">
+<meta property="og:title" content="Zine mazes · luci3D hardware">
+<meta property="og:description" content="Route a trace through the original hand-drawn luci3D zine mazes.">
+<meta property="og:image" content="img/stack.png">
+<link rel="icon" type="image/png" href="img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=IBM+Plex+Sans:wght@400;600&family=Silkscreen&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<!-- The company name appears in this header, the footer and each <title>: search for "luci3D hardware" to rename. -->
+<header class="site-header"><div class="wrap">
+  <a class="brand" href="index.html"><img class="pixel" src="img/logo-1x.png" alt="" width="27" height="33"><span>luci3D hardware</span></a>
+  <nav class="nav">
+    <a href="dvr.html">Open DVR</a>
+    <a href="shop.html">Shop</a>
+    <a href="game.html" aria-current="page">Game</a>
+    <a href="https://github.com/luci3D/open-dvr">GitHub</a>
+  </nav>
+</div></header>
+<main>
+<section class="block"><div class="wrap">
+  <div class="ref">TP1</div>
+  <h1>Zine mazes</h1>
+  <p>Before the logo was a logo, it was a snake in a hand-drawn zine of maze puzzles. Tracing a maze and routing a trace are the same thing.</p>
+  <div class="game">
+    <div>
+      <canvas id="maze" width="691" height="907" tabindex="0" aria-label="Maze. Use the arrow keys or WASD to route your trace."></canvas>
+      <div class="hud"><span>Time <b id="t">0.0 s</b></span><span>Trace <b id="len">0 px</b></span></div>
+      <div class="win" id="win" aria-live="polite"></div>
+    </div>
+    <div>
+      <div class="maze-pick">
+        <button data-maze="1">Maze 1</button><button data-maze="2">Maze 2</button><button data-maze="3">Maze 3</button><button data-maze="4">Maze 4</button><button data-maze="5">Maze 5</button>
+      </div>
+      <div class="say"><img class="pixel" src="img/logo-1x.png" alt="luci3D"><p><b>luci3D:</b> Start at the filled arrow, finish at the pink square by the hollow one. Arrow keys or WASD (click the maze first). On a phone, use the pad.</p></div>
+      <div class="dpad" aria-label="Direction pad">
+        <button class="up" data-dir="up" aria-label="Up">&#9650;</button>
+        <button class="left" data-dir="left" aria-label="Left">&#9664;</button>
+        <button class="right" data-dir="right" aria-label="Right">&#9654;</button>
+        <button class="down" data-dir="down" aria-label="Down">&#9660;</button>
+      </div>
+      <p style="margin-top:16px"><button class="btn ghost" id="reset">Start over</button></p>
+      <p class="muted">The full game is in development: board cities to explore, five guilds to play, and luci3D as your guide.</p>
+    </div>
+  </div>
+</div></section>
+</main>
+<footer class="site-footer"><div class="wrap">
+  <div><span class="silk">luci3D hardware</span><br>Open hardware for analog FPV, from Canada.</div>
+  <div><a href="https://github.com/luci3D/open-dvr">open-dvr on GitHub</a><br>Software under GPL-3.0</div>
+  <!-- TODO: add the YouTube channel link here once it's set -->
+</div></footer>
+<script src="js/maze.js"></script>
+</body>
+</html>

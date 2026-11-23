@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>luci3D hardware: open hardware for analog FPV</title>
+<meta name="description" content="We fix, reverse-engineer and build FPV electronics, and publish everything: code, schematics and board files.">
+<meta property="og:title" content="luci3D hardware: open hardware for analog FPV">
+<meta property="og:description" content="We fix, reverse-engineer and build FPV electronics, and publish everything: code, schematics and board files.">
+<meta property="og:image" content="img/stack.png">
+<link rel="icon" type="image/png" href="img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=IBM+Plex+Sans:wght@400;600&family=Silkscreen&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<!-- The company name appears in this header, the footer and each <title>: search for "luci3D hardware" to rename. -->
+<header class="site-header"><div class="wrap">
+  <a class="brand" href="index.html"><img class="pixel" src="img/logo-1x.png" alt="" width="27" height="33"><span>luci3D hardware</span></a>
+  <nav class="nav">
+    <a href="dvr.html">Open DVR</a>
+    <a href="shop.html">Shop</a>
+    <a href="game.html">Game</a>
+    <a href="https://github.com/luci3D/open-dvr">GitHub</a>
+  </nav>
+</div></header>
+<main>
+<div class="hero">
+  <img class="pixel" src="img/stack.png" width="1600" height="900" alt="An old flight controller and a 4-in-1 ESC drawn as a pixel-art city, joined by their cable like a bridge.">
+  <div class="over"><div class="wrap">
+    <div class="silk kicker">luci3D hardware</div>
+    <h1>Open hardware for analog FPV.</h1>
+    <p>We fix, reverse-engineer and build FPV electronics, and publish everything: code, schematics and board files.</p>
+    <div class="btns"><a class="btn" href="dvr.html">Open DVR</a><a class="btn ghost" href="shop.html">Shop</a><a class="btn ghost" href="game.html">Play a maze</a></div>
+  </div></div>
+</div>
+
+<section class="block"><div class="wrap split">
+  <div>
+    <div class="ref">U1</div>
+    <h2>Open DVR</h2>
+    <p>It started as a fix for a cheap analog DVR whose stock firmware records 50/60 fps files with only 25/30 different pictures a second. Our recorder runs from the SD card, flashes nothing, and records every field.</p>
+    <ul class="ticks">
+      <li>Real 50 fps PAL and 59.94 fps NTSC</li>
+      <li>H.264 in MPEG-TS clips that survive a power cut</li>
+      <li>The board's microphone as an in-sync MP3 track</li>
+      <li>Next: our own boards on the Rockchip RV1103</li>
+    </ul>
+    <div class="btns"><a class="btn" href="dvr.html">The project</a><a class="btn ghost" href="https://github.com/luci3D/open-dvr/releases">Download release 0.9</a></div>
+  </div>
+  <figure>
+    <img class="pixel" src="img/stack-plan.png" width="1520" height="768" alt="The flight controller and ESC drawn flat, top-down, like a city map." loading="lazy">
+    <figcaption>The Stack, drawn flat: our first board city.</figcaption>
+  </figure>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <div class="ref">J1</div>
+  <h2>Hardware</h2>
+  <p>Small batches, open files. Build your own from GitHub, or buy one from us when it's ready.</p>
+  <div class="grid" data-products="2"></div>
+  <p style="margin-top:24px"><a href="shop.html">All products</a></p>
+</div></section>
+
+<section class="block"><div class="wrap split">
+  <div>
+    <div class="ref">TP1</div>
+    <h2>Inside the circuit</h2>
+    <p>Every board is a city: traces are roads, chips are buildings, and old boards come with grime, scorch marks and bodge wires. luci3D, the snake from the back of our boards, runs inside the traces and sees the circuit from the inside.</p>
+    <p>The game is in development. Meanwhile, route a trace through one of the original hand-drawn zine mazes.</p>
+    <div class="btns"><a class="btn" href="game.html">Play a zine maze</a></div>
+  </div>
+  <figure>
+    <img src="img/maze-01.png" width="691" height="907" alt="A hand-drawn maze from the original luci3D zine." loading="lazy" style="background:#f2f1ee;max-width:360px">
+    <figcaption>Zine maze #1, drawn by hand.</figcaption>
+  </figure>
+</div></section>
+</main>
+<footer class="site-footer"><div class="wrap">
+  <div><span class="silk">luci3D hardware</span><br>Open hardware for analog FPV, from Canada.</div>
+  <div><a href="https://github.com/luci3D/open-dvr">open-dvr on GitHub</a><br>Software under GPL-3.0</div>
+  <!-- TODO: add the YouTube channel link here once it's set -->
+</div></footer>
+<script src="js/products.js"></script>
+<script src="js/shop.js"></script>
+</body>
+</html>
