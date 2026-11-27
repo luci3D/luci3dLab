@@ -241,7 +241,7 @@ for i in range(4):
     c.chip(*D(124 + 18 * i, 94), 12, 8, IC_DARK if i % 2 else COPPER_SHADOW, 3)
 c.logo(*D(84, 14), 1)
 c.text("OPEN-DVR", *D(118, 18), SILKSCREEN_WHITE, 3)
-c.text("LUCI3D  REV A", *D(118, 40), SILKSCREEN_WHITE, 2)
+c.text("TRACEWINDER", *D(118, 40), SILKSCREEN_WHITE, 2)
 
 # ================================================================= the bridges
 # FC <-> ESC: 8 wires, one red (VBAT), seven black

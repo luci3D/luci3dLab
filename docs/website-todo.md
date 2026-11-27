@@ -55,8 +55,8 @@ Each step needs the one before it.
 
 - [ ] YouTube channel link in the footer (You send it, Claude adds it)
 - [ ] Read all the page text and change anything that doesn't sound like you (You)
-- [ ] **Rename to Tracewinder Labs** (Claude): site header, footer, page titles and descriptions, the Lab copy, the story doc and READMEs. The snake logo stays; luci3D remains the snake's name in the lore and your pilot handle
-- [ ] A Tracewinder Labs wordmark next to the snake, in the site's pixel style (Claude drafts, You choose)
+- [x] **Rename to Tracewinder Labs** (Claude): site header, footer, page titles, READMEs, the DVR board's silkscreen in the art. luci3D stays as the snake's name in the lore and your pilot handle
+- [ ] **New logo** (Claude drafts, You choose): two first proposals in `brand/logo/proposals/` (A: trace ouroboros, B: coil ouroboros). Then the chosen mark goes on the site header, favicon and art
 - [ ] Social-preview image with a full web address, so links shared on Discord, Reddit and so on show a picture (Claude, after the domain)
 - [ ] A 404 page in the site's style (Claude)
 - [ ] Phone home-screen icon (Claude)

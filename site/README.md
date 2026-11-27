@@ -25,7 +25,7 @@ Then open http://localhost:8000.
 - **Products, prices and buy buttons:** `js/products.js`. When a product is ready, set its `status` to `"available"`, fill in `price`, and paste its Stripe Payment Link into `stripe` and its PayPal link into `paypal`. The buttons appear by themselves.
 - **Email sign-up ("Get notified"):** the form is on the Lab page (`shop.html#notify`), and every "Get notified" button leads there. It posts straight to the newsletter service. Turn it on by setting `NOTIFY.action` at the bottom of `js/products.js` (for Buttondown: `https://buttondown.com/api/emails/embed-subscribe/YOUR-USERNAME`). Until then it shows "Sign-up opens soon".
 - **Fonts:** Silkscreen for headings, menu and buttons; Doto (dot matrix, weight 900) for everything else (`--font-silk` and `--font-body` in `css/style.css`). `fonts.html` (not linked) compares pixel fonts on real page content.
-- **Company name:** search all `.html` files for `luci3D hardware`.
+- **Company name:** search all `.html` files for `Tracewinder Labs`.
 - **YouTube link:** the `TODO` in the footer of each page.
 - **Art:** after re-rendering anything in `art/`, run `python3 site/tools/sync_assets.py` to copy it into `site/img/` (it also rebuilds the favicon).
 

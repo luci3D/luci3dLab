@@ -1,6 +1,6 @@
 # luci3dLab
 
-Brand, website, shop and game for **luci3D hardware** (working name, it may change).
+Brand, website, shop and game for **Tracewinder Labs**. luci3D is the founder's pilot handle and the name of the snake in the logo and the game.
 
 | Folder | What |
 |---|---|
