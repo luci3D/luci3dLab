@@ -31,7 +31,7 @@ import palette  # noqa: E402
 from font3x5 import text_pixels, text_width  # noqa: E402
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from citykit import draw_radial, radial_shadow  # noqa: E402
+from citykit import draw_radial, radial_shadow, spline  # noqa: E402
 
 P = palette.load()
 for _k in list(P):
@@ -197,8 +197,8 @@ def box(x, y, w, d, height, top, side, hi=None, hi_h=2, z0=0.0, flat=False, wind
     return z0 + height * HS
 
 
-def wire3d(pts, w, c):
-    OBJS.append(dict(kind="wire", pts=pts, w=w, c=c))
+def wire3d(pts, w, c, kb=0):
+    OBJS.append(dict(kind="wire", pts=pts, w=w, c=c, kb=kb))
 
 
 def smoke(x, y, z=6.0, n=6):
@@ -579,14 +579,15 @@ chip0603(*E(160, 560))
 
 # the water tower: big electrolytic lying across the battery pads
 # (a radial cap: lies along x, both legs out of its east end, bent onto the + and - pads)
-CX0, CX1, CCY, CR = *E(424, 0)[:1], E(560, 0)[0], E(0, 288)[1], 32
-blob((CX0 + CX1) / 2 + 10, CCY + 12, 80, None, ry=40)
-OBJS.append(dict(kind="radial", x0=CX0, x1=CX1, cy=CCY, r=CR, legs="e"))
+EDGE = EX + ES                                     # it rides on the battery leads, off the board's east edge
+CX0, CX1, CCY, CR, CZ = EDGE + 34, EDGE + 160, E(0, 288)[1], 28, 22
+OBJS.append(dict(kind="radial", x0=CX0, x1=CX1, cy=CCY, r=CR, legs="w", z=CZ, key_bias=100))
 PLAN_EXTRAS = [(CX0, CCY - CR, CX1 - CX0, 2 * CR, GRAFFITI_PURPLE), (CX0, CCY + CR * 0.45, CX1 - CX0, 4, SILKSCREEN_WHITE),
-               (CX0, CCY - CR, 6, 2 * CR, SILKSCREEN_SHADE)]           # the cap in the flat plan only
+               (CX1 - 6, CCY - CR, 6, 2 * CR, SILKSCREEN_SHADE)]       # the cap in the flat plan only
 for (pxy, off) in zip((E(608, 241), E(608, 335)), (-0.35, 0.35)):
-    wire3d([(CX1, CCY + off * CR, CR), (CX1 + 10, CCY + off * CR, CR - 4), (CX1 + 16, CCY + off * CR * 1.6, 12),
-            (pxy[0], pxy[1], 5)], 4, SILKSCREEN_SHADE)
+    yo, zc = CCY + off * CR, CZ + CR
+    wire3d([(CX0, yo, zc), (CX0 - 8, yo, zc - 3), ((CX0 - 8 + pxy[0]) / 2, (yo + pxy[1]) / 2, (zc + 5) / 2 + 3),
+            (pxy[0], pxy[1], 5)], 4, SILKSCREEN_SHADE, kb=101)
 
 for (py_, c, lab_) in [(206, LOGO_RED, "+"), (300, IC_DARK, "-")]:  # battery pads + leads
     px_, pyy = E(590, py_)
@@ -595,13 +596,10 @@ for (py_, c, lab_) in [(206, LOGO_RED, "+"), (300, IC_DARK, "-")]:  # battery pa
     solder_blob(px_ + 18, pyy + 35, 16)
     text(lab_, px_ - 22, pyy + 26, SILKSCREEN_WHITE, 4)
     yy = pyy + 35
-    lead = []
-    for k in range(13):
-        t = k / 12
-        x_ = px_ + 18 + t * 300
-        z_ = 10 if x_ < EX + ES + 6 else max(FLOOR + 8, 10 - ((x_ - EX - ES - 6) / 90) ** 2 * 160)
-        lead.append((x_, yy + t * 40, z_))
-    wire3d(lead, 24, c)
+    off = -14 if c == LOGO_RED else 14                 # the two leads come together under the cap
+    wire3d(spline([(px_ + 18, yy, 10), (EDGE + 8, yy, 10), (EDGE + 40, CCY + off, 10), (EDGE + 180, CCY + off, 10),
+                   (EDGE + 225, CCY + off + 20, -60), (EDGE + 255, CCY + off + 50, FLOOR + 8),
+                   (EDGE + 520, CCY + off + 120, FLOOR + 8)]), 24, c)
 
 for gi, (gx0, top, num) in enumerate([(130, True, "4"), (380, True, "2"), (130, False, "3"), (380, False, "1")]):
     for k in range(3):  # motor pads, wires leaving the city
@@ -806,6 +804,10 @@ for o in OBJS:
         sp = [proj(x + LIGHT[0] * (z - FLOOR), y + LIGHT[1] * (z - FLOOR), FLOOR) for x, y, z in o["pts"]]
         fl_lines.append((sp, o["w"] * FOC / depth(*o["pts"][0][:2], FLOOR)))
 shade_screen(screen_mask(fl_polys[:2]), 2)
+shade_screen(screen_mask([[proj(x + LIGHT[0] * (o["z"] + o["r"] - FLOOR), y + LIGHT[1] * (o["z"] + o["r"] - FLOOR), FLOOR)
+                           for x, y in ((o["x0"], o["cy"] - o["r"]), (o["x1"], o["cy"] - o["r"]),
+                                        (o["x1"], o["cy"] + o["r"]), (o["x0"], o["cy"] + o["r"]))]
+                          for o in OBJS if o["kind"] == "radial"]))                   # the cap's shadow
 shade_screen(screen_mask((), fl_lines), 1)
 
 
@@ -844,11 +846,11 @@ for o in OBJS:
     for p0, p1 in zip(o["pts"], o["pts"][1:]):
         b = behind_boards(p0, p1)
         if cur_behind is not None and b != cur_behind:
-            runs.append((cur, o["w"], o["c"], cur_behind))
+            runs.append((cur, o["w"], o["c"], cur_behind, o.get("kb", 0)))
             cur = [p0]
         cur.append(p1)
         cur_behind = b
-    runs.append((cur, o["w"], o["c"], bool(cur_behind)))
+    runs.append((cur, o["w"], o["c"], bool(cur_behind), o.get("kb", 0)))
 for r in sorted([r for r in runs if r[3]], key=lambda r: -depth(*r[0][0])):
     draw_wire_run(*r[:3])
 
@@ -985,13 +987,13 @@ for o in OBJS:
     if o["kind"] == "hcyl":
         items.append((o["y1"], 0, lambda o=o: draw_hcyl(o)))
     if o["kind"] == "radial":
-        items.append((o["cy"] + o["r"], 0, lambda o=o: draw_radial(o, proj, poly,
+        items.append((o["cy"] + o["r"] + o.get("key_bias", 0), 0, lambda o=o: draw_radial(o, proj, poly,
                                                                      lambda pts, c, w: dr.line(pts, fill=c, width=w), CAM)))
     if o["kind"] == "tri":
         items.append((max(p[1] for p in o["pts"]), 0,
                       lambda o=o: poly([proj(*p) for p in o["pts"]], o["c"])))
 for r in [r for r in runs if not r[3]]:
-    items.append((max(p[1] for p in r[0]), 1, lambda r=r: draw_wire_run(*r[:3])))
+    items.append((max(p[1] for p in r[0]) + r[4], 1, lambda r=r: draw_wire_run(*r[:3])))
 for _, _, fn in sorted(items, key=lambda t: (t[0], t[1])):
     fn()
 

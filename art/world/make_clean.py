@@ -151,13 +151,18 @@ for py, lab in [(150, "+"), (222, "-")]:
 c.text("+", *E(60, 160), SILKSCREEN_WHITE, 3)
 c.text("-", *E(60, 236), SILKSCREEN_WHITE, 3)
 c.text_c("4IN1 ESC  3-6S", *E(330, 268), SILKSCREEN_WHITE, 2)
-c.radial_cap(EX + 70, EX + 196, EY + 209, 30, "w", [E(30, 173), E(30, 245)])   # the cap, legs on its pads
 YB = EY + 209                                                      # the leads meet here
-for py, col, off in [(173, LOGO_RED, -13), (245, BLACKW, 13)]:      # battery leads, gathered and tied
+for py, col, off in [(173, LOGO_RED, -13), (245, BLACKW, 13)]:      # battery leads, side by side, off the board
     y0 = EY + py
-    c.wire(spline([(EX + 28, y0, 8), (EX - 14, y0, 8), (EX - 50, YB + off, 2), (EX - 90, YB + off + 30, -50),
-                   (EX - 120, YB + off + 120, c.FLOOR + 12), (EX - 150, H + 300, c.FLOOR + 12)]), 22, col)
-c.wire([(EX - 56, YB - 30, 4), (EX - 56, YB + 30, 4)], 9, SILKSCREEN_WHITE)                     # zip tie
+    c.wire(spline([(EX + 28, y0, 8), (EX - 14, y0, 8), (EX - 50, YB + off, 7), (EX - 165, YB + off, 7),
+                   (EX - 205, YB + off + 30, -50), (EX - 235, YB + off + 120, c.FLOOR + 12),
+                   (EX - 265, H + 300, c.FLOOR + 12)]), 22, col)
+CAP_R, CAP_Z = 26, 17                                               # the cap lies on top of the leads
+c.radial_cap(EX - 150, EX - 30, YB, CAP_R, "e", [E(30, 173), E(30, 245)], z=CAP_Z, key_bias=100)
+for zx in (EX - 72, EX - 128):                                     # zip ties around cap and leads
+    zc = CAP_Z + CAP_R
+    c.wire([(zx, YB - 27 * math.cos(math.pi * k / 10), 4 + (zc + CAP_R - 3) * math.sin(math.pi * k / 10))
+            for k in range(11)], 6, SILKSCREEN_WHITE, key_bias=103)
 # motor wires: three per motor, gathered into a sleeved bundle that runs off toward its arm
 for grp in range(2):
     for top in (True, False):
@@ -278,7 +283,8 @@ for k, (py, col) in enumerate([(200, BLACKW), (222, LOGO_RED), (244, BLACKW)]):
 out = Path(__file__).resolve().parent / "out"
 out.mkdir(exist_ok=True)
 c.plan_image().save(out / "clean-v1-plan.png")
-img = c.render(out_size=(1800, 760), target=(W / 2, H / 2 + 20, 0), pitch=62, dist=1500, focal=1500, screen_cy=0.44)
+img = c.render(out_size=(1800, 760), target=((EX - 160 + DX + DS) / 2, H / 2 + 20, 0), pitch=62, dist=1500, focal=1400,
+               screen_cy=0.44)   # framed from the cap on the leads to the DVR
 img.save(out / "clean-v1.png")
 # close-up of our board alone: rendered small, scaled up with hard pixels
 dvr = c.render(out_size=(560, 420), target=(DX + DS / 2 + 6, DY + DS / 2 + 14, 0), pitch=60, dist=900,

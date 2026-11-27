@@ -101,7 +101,7 @@ def draw_radial(o, proj, poly, line, cam, ladder=None):
     """A radial electrolytic lying on its side along x, both legs out of one end (the FPV way).
     o: x0, x1, cy, r, legs ('w' or 'e'). Draws the visible sleeve facets and the visible end."""
     x0, x1, cy, r = o["x0"], o["x1"], o["cy"], o["r"]
-    zc = r
+    zc = o.get("z", 0) + r
     ladder = ladder or [SMOKE_VIOLET, GRAFFITI_PURPLE, DUSK_PURPLE, IC_DARK]
     vent_x, bung_x = (x1, x0) if o["legs"] == "w" else (x0, x1)
     ring = [2 * math.pi * k / 20 for k in range(20)]
@@ -308,23 +308,27 @@ class City:
                               flat=flat, windows=windows or []))
         return z0 + height * self.HS
 
-    def wire(self, pts, w, c):
-        self.objs.append(dict(kind="wire", pts=pts, w=w, c=c))
+    def wire(self, pts, w, c, key_bias=0):
+        """key_bias pushes the wire later in the drawing order (e.g. legs over a cap that sits on other wires)."""
+        self.objs.append(dict(kind="wire", pts=pts, w=w, c=c, kb=key_bias))
 
     def hcyl(self, cx, y0, y1, r, stripe=True):
         self.objs.append(dict(kind="hcyl", cx=cx, y0=y0, y1=y1, r=r, stripe=stripe))
 
-    def radial_cap(self, x0, x1, cy, r, legs, pads):
-        """A radial electrolytic lying along x on the board, legs out of the `legs` end ('w'/'e'),
-        bent down onto pads [(x, y), (x, y)] (plus first, minus second)."""
-        self.objs.append(dict(kind="radial", x0=x0, x1=x1, cy=cy, r=r, legs=legs))
+    def radial_cap(self, x0, x1, cy, r, legs, pads, z=0.0, key_bias=0):
+        """A radial electrolytic lying along x, legs out of the `legs` end ('w'/'e'), bent down onto
+        pads [(x, y), (x, y)] (plus first, minus second). z lifts it, e.g. onto the battery leads;
+        key_bias draws it after the wires it rests on."""
+        self.objs.append(dict(kind="radial", x0=x0, x1=x1, cy=cy, r=r, legs=legs, z=z, key_bias=key_bias))
         self.plan_extras.append((x0, cy - r, x1 - x0, 2 * r, GRAFFITI_PURPLE))      # shown in the flat plan only
         self.plan_extras.append((x0, cy + r * 0.45, x1 - x0, 4, SILKSCREEN_WHITE))
         self.plan_extras.append((x1 - 6 if legs == "w" else x0, cy - r, 6, 2 * r, SILKSCREEN_SHADE))
         bx, s = (x0, -1) if legs == "w" else (x1, 1)
+        zc = z + r
         for (px, py), off in zip(pads, (-0.35, 0.35)):
-            self.wire([(bx, cy + off * r, r), (bx + s * 10, cy + off * r, r - 4), (bx + s * 16, cy + off * r * 1.6, 12),
-                       (px, py, 5)], 4, SILKSCREEN_SHADE)
+            yo = cy + off * r
+            self.wire([(bx, yo, zc), (bx + s * 8, yo, zc - 3), ((bx + s * 8 + px) / 2, (yo + py) / 2, (zc + 5) / 2 + 3),
+                       (px, py, 5)], 4, SILKSCREEN_SHADE, key_bias=key_bias + 1)
 
     def legs(self, xs, y, dy, n, wid=5):
         for x in xs:
@@ -512,6 +516,12 @@ class City:
                 sp = [proj(x + light[0] * (z - FLOOR), y + light[1] * (z - FLOOR), FLOOR) for x, y, z in o["pts"]]
                 lines.append((sp, o["w"] * focal / depth(*o["pts"][0][:2], FLOOR)))
         shade_screen(screen_mask(polys), 2)
+        lifted = [o for o in self.objs if o["kind"] == "radial" and o.get("z", 0) > 0]      # caps off the board
+        if lifted:
+            shade_screen(screen_mask([[proj(x + light[0] * (o["z"] + o["r"] - FLOOR), y + light[1] * (o["z"] + o["r"] - FLOOR),
+                                            FLOOR) for x, y in ((o["x0"], o["cy"] - o["r"]), (o["x1"], o["cy"] - o["r"]),
+                                                                (o["x1"], o["cy"] + o["r"]), (o["x0"], o["cy"] + o["r"]))]
+                                      for o in lifted]))
         shade_screen(screen_mask((), lines), 1)
 
         # --- wires: runs behind the boards first
@@ -554,11 +564,11 @@ class City:
             for p0, p1 in zip(o["pts"], o["pts"][1:]):
                 b = behind(p0, p1)
                 if state is not None and b != state:
-                    runs.append((cur, o["w"], o["c"], state))
+                    runs.append((cur, o["w"], o["c"], state, o.get("kb", 0)))
                     cur = [p0]
                 cur.append(p1)
                 state = b
-            runs.append((cur, o["w"], o["c"], bool(state)))
+            runs.append((cur, o["w"], o["c"], bool(state), o.get("kb", 0)))
         for r in sorted([r for r in runs if r[3]], key=lambda r: -depth(*r[0][0])):
             draw_run(*r[:3])
 
@@ -672,9 +682,9 @@ class City:
         shade_screen(screen_mask([footprint_shadow(o) for o in ground] + cyl_sh) & board_screen)
         items = [(o["y"] + o["d"], 0, lambda o=o: draw_box(o)) for o in ground]
         items += [(o["y1"], 0, lambda o=o: draw_hcyl(o)) for o in self.objs if o["kind"] == "hcyl"]
-        items += [(o["cy"] + o["r"], 0, lambda o=o: draw_radial(o, proj, poly, lambda pts, c, w: dr.line(pts, fill=c, width=w), cam))
+        items += [(o["cy"] + o["r"] + o.get("key_bias", 0), 0, lambda o=o: draw_radial(o, proj, poly, lambda pts, c, w: dr.line(pts, fill=c, width=w), cam))
                   for o in self.objs if o["kind"] == "radial"]
-        items += [(max(p[1] for p in r[0]), 1, lambda r=r: draw_run(*r[:3])) for r in runs if not r[3]]
+        items += [(max(p[1] for p in r[0]) + r[4], 1, lambda r=r: draw_run(*r[:3])) for r in runs if not r[3]]
         for _, _, fn in sorted(items, key=lambda t: (t[0], t[1])):
             fn()
         if raised:
