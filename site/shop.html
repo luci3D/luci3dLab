@@ -50,6 +50,18 @@
   </figure>
 </div></section>
 
+<section class="block" id="notify"><div class="wrap">
+  <div class="ref">TP2</div>
+  <h2>Get notified</h2>
+  <p>Leave your email and we'll write when the DIY kit goes on sale. Launch news only, and you can unsubscribe with one click.</p>
+  <form class="notify" data-notify method="post" target="_blank">
+    <label class="sr" for="notify-email">Email address</label>
+    <input id="notify-email" type="email" required placeholder="you@example.com" autocomplete="email">
+    <button class="btn" type="submit">Get notified</button>
+  </form>
+  <p class="note" data-notify-status aria-live="polite"></p>
+</div></section>
+
 <section class="block"><div class="wrap">
   <h2>Questions</h2>
   <h3>When can I get one?</h3>
@@ -67,5 +79,6 @@
 </div></footer>
 <script src="js/products.js?v=dev"></script>
 <script src="js/shop.js?v=dev"></script>
+<script src="js/notify.js?v=dev"></script>
 </body>
 </html>

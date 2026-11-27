@@ -34,5 +34,12 @@ window.PRODUCTS = [
   },
 ];
 
-/* Where "Get notified" goes. Set to your newsletter sign-up page once you have one. */
-window.NOTIFY_URL = "https://github.com/luci3D/open-dvr";
+/* "Get notified" opens the sign-up form on the Lab page. */
+window.NOTIFY_URL = "shop.html#notify";
+
+/* The sign-up form. Fill in `action` once your newsletter account exists; until then the form
+   shows "Sign-up opens soon" and sends nothing.
+     action: the service's form address. Buttondown: "https://buttondown.com/api/emails/embed-subscribe/YOUR-USERNAME"
+     field:  the name the service expects for the email box ("email" for Buttondown)
+     extra:  hidden fields sent with it (Buttondown files the sign-up under this tag) */
+window.NOTIFY = { action: "", field: "email", extra: { tag: "diy-kit" } };

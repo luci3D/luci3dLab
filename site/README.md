@@ -23,7 +23,7 @@ Then open http://localhost:8000.
 ## Common edits
 
 - **Products, prices and buy buttons:** `js/products.js`. When a product is ready, set its `status` to `"available"`, fill in `price`, and paste its Stripe Payment Link into `stripe` and its PayPal link into `paypal`. The buttons appear by themselves.
-- **"Get notified" link:** `NOTIFY_URL` at the bottom of `js/products.js` (a newsletter sign-up page, once there is one).
+- **Email sign-up ("Get notified"):** the form is on the Lab page (`shop.html#notify`), and every "Get notified" button leads there. It posts straight to the newsletter service. Turn it on by setting `NOTIFY.action` at the bottom of `js/products.js` (for Buttondown: `https://buttondown.com/api/emails/embed-subscribe/YOUR-USERNAME`). Until then it shows "Sign-up opens soon".
 - **Fonts:** Silkscreen for headings, menu and buttons; Doto (dot matrix, weight 900) for everything else (`--font-silk` and `--font-body` in `css/style.css`). `fonts.html` (not linked) compares pixel fonts on real page content.
 - **Company name:** search all `.html` files for `luci3D hardware`.
 - **YouTube link:** the `TODO` in the footer of each page.

@@ -161,3 +161,14 @@ table.specs td { padding: 6px 0; }
 /* the lab header */
 .lab-hero { background: var(--mask-deep); border-bottom: 2px solid var(--trace-hi); }
 .lab-hero img { display: block; width: 100%; height: auto; }
+
+/* newsletter sign-up */
+.notify { display: flex; gap: 12px; flex-wrap: wrap; max-width: 640px; margin: 8px 0 12px; }
+.notify input {
+  flex: 1 1 260px; font: inherit; color: var(--silk); background: var(--mask-deep);
+  border: 0; box-shadow: inset 0 0 0 2px var(--trace-hi); padding: 10px 12px;
+}
+.notify input:focus { outline: none; box-shadow: inset 0 0 0 2px var(--gold); }
+.notify input:disabled { opacity: 0.6; }
+.note { font-size: 15px; color: var(--silk-shade); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
