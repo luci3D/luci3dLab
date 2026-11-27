@@ -1,5 +1,7 @@
 # Workflow: brand → website + shop → game
 
+Website tasks, including the domain and email setup, are tracked in [`website-todo.md`](website-todo.md).
+
 ## Tools
 
 - **Aseprite** (owner's computer) for drawing and polishing.

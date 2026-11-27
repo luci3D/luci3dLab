@@ -8,7 +8,7 @@ Brand, website, shop and game for **luci3D hardware** (working name, it may chan
 | [`art/`](art/) | [`art/world/`](art/world/): board cities. The Clean Stack (ESC + FC + our DVR, the website hero) and the beaten Stack (the game's first level). [`art/lab/`](art/lab/): the Lab, luci3D's workshop, and the Line, its manufacturing bay. [`art/sprites/`](art/sprites/): the five guild creatures and luci3D the snake (drafts) |
 | [`site/`](site/) | The website: home, Open DVR, shop, zine maze game ([how to edit and publish](site/README.md)) |
 | [`zine/`](zine/) | The original hand-drawn maze zine: proof-of-concept levels and inspiration |
-| [`docs/`](docs/) | [The story](docs/story.md) and [the workflow](docs/workflow.md) |
+| [`docs/`](docs/) | [The story](docs/story.md), [the workflow](docs/workflow.md) and [the website to-do list](docs/website-todo.md) |
 
 ## Style and sizes
 
