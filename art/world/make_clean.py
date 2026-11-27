@@ -159,10 +159,6 @@ for py, col, off in [(173, LOGO_RED, -13), (245, BLACKW, 13)]:      # battery le
                    (EX - 265, H + 300, c.FLOOR + 12)]), 22, col)
 CAP_R, CAP_Z = 26, 17                                               # the cap lies on top of the leads
 c.radial_cap(EX - 150, EX - 30, YB, CAP_R, "e", [E(30, 173), E(30, 245)], z=CAP_Z, key_bias=100)
-for zx in (EX - 72, EX - 128):                                     # zip ties around cap and leads
-    zc = CAP_Z + CAP_R
-    c.wire([(zx, YB - 27 * math.cos(math.pi * k / 10), 4 + (zc + CAP_R - 3) * math.sin(math.pi * k / 10))
-            for k in range(11)], 6, SILKSCREEN_WHITE, key_bias=103)
 # motor wires: three per motor, gathered into a sleeved bundle that runs off toward its arm
 for grp in range(2):
     for top in (True, False):
