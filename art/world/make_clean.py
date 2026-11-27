@@ -134,12 +134,12 @@ for k in range(10):                                                # gate resist
 c.qfn(*E(*DRV), 64, 64, 5, "F421")
 c.qfn(*E(318, 150), 30, 30, 4)
 c.qfn(*E(318, 222), 30, 30, 4)
-c.box(*E(148, 166), 56, 40, 6, IC_DARK, IC_BLACK, hi=IC_GREY)    # regulator
-c.rect(*E(156, 206), 40, 10, ENIG_GOLD)
-c.box(*E(150, 214), 30, 24, 7, COPPER_SHADOW, IC_BLACK)           # tantalum
-c.rect(*E(150, 214), 30, 4, IC_GREY)
+c.box(*E(70, 128), 56, 36, 6, IC_DARK, IC_BLACK, hi=IC_GREY)     # regulator
+c.rect(*E(78, 164), 40, 8, ENIG_GOLD)
+c.box(*E(140, 132), 30, 24, 7, COPPER_SHADOW, IC_BLACK)           # tantalum
+c.rect(*E(140, 132), 30, 4, IC_GREY)
 c.box(*E(226, 248), 26, 14, 4, IC_DARK, IC_BLACK)
-c.box(*E(100, 300 - 150), 36, 100, 6, SILKSCREEN_SHADE, IC_GREY, hi=SILKSCREEN_WHITE)   # current shunt
+c.box(*E(130, 248), 86, 28, 6, SILKSCREEN_SHADE, IC_GREY, hi=SILKSCREEN_WHITE)   # current shunt
 for i in range(3):
     c.chip(*E(352 + 24 * i, 196), 12, 22, COPPER_SHADOW, 3)
 c.jst(*E(440, 150), 48, 108, 8, "v", 10)                           # FC port
@@ -150,10 +150,8 @@ for py, lab in [(150, "+"), (222, "-")]:
     c.solder(*E(28, py + 23), 14)
 c.text("+", *E(60, 160), SILKSCREEN_WHITE, 3)
 c.text("-", *E(60, 236), SILKSCREEN_WHITE, 3)
-c.text_c("4IN1 ESC  3-6S", *E(240, 254), SILKSCREEN_WHITE, 2)
-c.hcyl(*E(76, 0)[:1], E(0, 150)[1], E(0, 268)[1], 24)              # capacitor lying on the pads
-for yy in (E(0, 150)[1] + 4, E(0, 268)[1] - 4):                   # short legs (< 1 cm) to the pads
-    c.wire([(EX + 70, yy, 20), (EX + 40, yy, 8), (EX + 28, yy + (19 if yy < YC else -19), 6)], 4, SILKSCREEN_SHADE)
+c.text_c("4IN1 ESC  3-6S", *E(330, 268), SILKSCREEN_WHITE, 2)
+c.radial_cap(EX + 70, EX + 196, EY + 209, 30, "w", [E(30, 173), E(30, 245)])   # the cap, legs on its pads
 YB = EY + 209                                                      # the leads meet here
 for py, col, off in [(173, LOGO_RED, -13), (245, BLACKW, 13)]:      # battery leads, gathered and tied
     y0 = EY + py

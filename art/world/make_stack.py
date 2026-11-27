@@ -30,6 +30,9 @@ sys.path.insert(0, str(ROOT / "brand" / "tools"))
 import palette  # noqa: E402
 from font3x5 import text_pixels, text_width  # noqa: E402
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from citykit import draw_radial, radial_shadow  # noqa: E402
+
 P = palette.load()
 for _k in list(P):
     globals()[_k.upper().replace(" ", "_").replace("-", "_")] = P[_k]
@@ -575,13 +578,17 @@ for i in range(3):
 chip0603(*E(160, 560))
 
 # the water tower: big electrolytic lying across the battery pads
-CAPX, CAPY = E(500, 236)
-blob(CAPX + 30, CAPY + 90, 40, None, ry=96)
-OBJS.append(dict(kind="hcyl", cx=CAPX + 30, y0=CAPY, y1=CAPY + 172, r=30))
-for (yy, py_) in [(CAPY + 4, 241), (CAPY + 168, 431)]:
-    wire3d([(CAPX + 44, yy, 14), (CAPX + 70, yy, 10), (E(612, py_)[0], E(0, py_)[1], 4)], 4, SILKSCREEN_SHADE)
+# (a radial cap: lies along x, both legs out of its east end, bent onto the + and - pads)
+CX0, CX1, CCY, CR = *E(424, 0)[:1], E(560, 0)[0], E(0, 288)[1], 32
+blob((CX0 + CX1) / 2 + 10, CCY + 12, 80, None, ry=40)
+OBJS.append(dict(kind="radial", x0=CX0, x1=CX1, cy=CCY, r=CR, legs="e"))
+PLAN_EXTRAS = [(CX0, CCY - CR, CX1 - CX0, 2 * CR, GRAFFITI_PURPLE), (CX0, CCY + CR * 0.45, CX1 - CX0, 4, SILKSCREEN_WHITE),
+               (CX0, CCY - CR, 6, 2 * CR, SILKSCREEN_SHADE)]           # the cap in the flat plan only
+for (pxy, off) in zip((E(608, 241), E(608, 335)), (-0.35, 0.35)):
+    wire3d([(CX1, CCY + off * CR, CR), (CX1 + 10, CCY + off * CR, CR - 4), (CX1 + 16, CCY + off * CR * 1.6, 12),
+            (pxy[0], pxy[1], 5)], 4, SILKSCREEN_SHADE)
 
-for (py_, c, lab_) in [(206, LOGO_RED, "+"), (396, IC_DARK, "-")]:  # battery pads + leads
+for (py_, c, lab_) in [(206, LOGO_RED, "+"), (300, IC_DARK, "-")]:  # battery pads + leads
     px_, pyy = E(590, py_)
     rect(px_, pyy, 50, 70, ENIG_GOLD)
     rect(px_, pyy, 50, 4, GOLD_HIGHLIGHT)
@@ -968,7 +975,7 @@ raised = [o for o in OBJS if o["kind"] == "box" and o["z0"] > 4]
 sh = screen_mask([footprint_shadow(o) for o in ground] +
                  [[proj(o["cx"] - o["r"] + LIGHT[0] * 0, o["y0"], 0), proj(o["cx"] + o["r"] + LIGHT[0] * 60, o["y0"] + 30, 0),
                    proj(o["cx"] + o["r"] + LIGHT[0] * 60, o["y1"] + 40, 0), proj(o["cx"] - o["r"], o["y1"], 0)]
-                  for o in OBJS if o["kind"] == "hcyl"])
+                  for o in OBJS if o["kind"] == "hcyl"] + [radial_shadow(o, proj, LIGHT) for o in OBJS if o["kind"] == "radial"])
 shade_screen(sh & BOARD_SCREEN)
 
 items = []
@@ -977,6 +984,9 @@ for o in ground:
 for o in OBJS:
     if o["kind"] == "hcyl":
         items.append((o["y1"], 0, lambda o=o: draw_hcyl(o)))
+    if o["kind"] == "radial":
+        items.append((o["cy"] + o["r"], 0, lambda o=o: draw_radial(o, proj, poly,
+                                                                     lambda pts, c, w: dr.line(pts, fill=c, width=w), CAM)))
     if o["kind"] == "tri":
         items.append((max(p[1] for p in o["pts"]), 0,
                       lambda o=o: poly([proj(*p) for p in o["pts"]], o["c"])))
@@ -1003,5 +1013,7 @@ scr.save(out / "stack-v2.png")
 pl = np.zeros_like(plan)
 pl[:] = VOID
 pl[alpha] = plan[alpha]
+for x, y, w, h, col in PLAN_EXTRAS:
+    pl[int(y):int(y + h), int(x):int(x + w)] = col
 Image.fromarray(pl).save(out / "stack-v2-plan.png")
 print("wrote", out)

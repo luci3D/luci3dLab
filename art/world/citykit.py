@@ -97,6 +97,46 @@ def spline(ctrl, per=12):
     return out
 
 
+def draw_radial(o, proj, poly, line, cam, ladder=None):
+    """A radial electrolytic lying on its side along x, both legs out of one end (the FPV way).
+    o: x0, x1, cy, r, legs ('w' or 'e'). Draws the visible sleeve facets and the visible end."""
+    x0, x1, cy, r = o["x0"], o["x1"], o["cy"], o["r"]
+    zc = r
+    ladder = ladder or [SMOKE_VIOLET, GRAFFITI_PURPLE, DUSK_PURPLE, IC_DARK]
+    vent_x, bung_x = (x1, x0) if o["legs"] == "w" else (x0, x1)
+    ring = [2 * math.pi * k / 20 for k in range(20)]
+    for ex in (x0, x1):                                   # the end facing the camera
+        if (cam[0] - ex) * (1 if ex == x1 else -1) <= 0:
+            continue
+        poly([proj(ex, cy + r * math.cos(t), zc + r * math.sin(t)) for t in ring], ladder[2])
+        if ex == vent_x:                                  # aluminium top with the K vent
+            poly([proj(ex, cy + r * 0.84 * math.cos(t), zc + r * 0.84 * math.sin(t)) for t in ring], SILKSCREEN_SHADE)
+            poly([proj(ex, cy + r * 0.6 * math.cos(t) - 2, zc + r * 0.6 * math.sin(t) + 2) for t in ring], SILKSCREEN_WHITE)
+            line([proj(ex, cy - r * 0.55, zc), proj(ex, cy + r * 0.55, zc)], IC_GREY, 2)
+            line([proj(ex, cy, zc - r * 0.55), proj(ex, cy, zc + r * 0.55)], IC_GREY, 2)
+        else:                                             # rubber bung, where the legs come out
+            poly([proj(ex, cy + r * 0.78 * math.cos(t), zc + r * 0.78 * math.sin(t)) for t in ring], IC_BLACK)
+    n = 16
+    for k in range(n):
+        ta, tb = 2 * math.pi * k / n, 2 * math.pi * (k + 1) / n
+        tm = (ta + tb) / 2
+        ny, nz = math.cos(tm), math.sin(tm)
+        if ny * (cam[1] - (cy + r * ny)) + nz * (cam[2] - (zc + r * nz)) <= 0:
+            continue
+        lit = -0.45 * ny + 0.9 * nz
+        c = ladder[0 if lit > 0.7 else 1 if lit > 0.15 else 2 if lit > -0.4 else 3]
+        if k == 2:
+            c = SILKSCREEN_WHITE                          # polarity stripe (the minus side)
+        poly([proj(x0, cy + r * math.cos(ta), zc + r * math.sin(ta)), proj(x1, cy + r * math.cos(ta), zc + r * math.sin(ta)),
+              proj(x1, cy + r * math.cos(tb), zc + r * math.sin(tb)), proj(x0, cy + r * math.cos(tb), zc + r * math.sin(tb))], c)
+
+
+def radial_shadow(o, proj, light):
+    x0, x1, cy, r = o["x0"], o["x1"], o["cy"], o["r"]
+    ox, oy = light[0] * 2 * r, light[1] * 2 * r
+    return [proj(x0, cy - r, 0), proj(x1, cy - r, 0), proj(x1 + ox, cy + r + oy, 0), proj(x0 + ox, cy + r + oy, 0)]
+
+
 def rounded_outline(x, y, w, h, r, n=6, notches=()):
     """Rounded rectangle outline (clockwise). notches: (edge, pos, radius) semicircle bites,
     edge in 'nsew', pos measured along the edge from the board's top-left."""
@@ -141,6 +181,7 @@ class City:
         self.boards = []       # (outline, thickness)
         self.board_area = np.zeros((h, w), bool)
         self.traces = []
+        self.plan_extras = []  # (x, y, w, h, colour) drawn on the flat plan image, not under the 3D view
 
     # ---------------------------------------------------------------- plan drawing
     def mask(self, fn):
@@ -272,6 +313,18 @@ class City:
 
     def hcyl(self, cx, y0, y1, r, stripe=True):
         self.objs.append(dict(kind="hcyl", cx=cx, y0=y0, y1=y1, r=r, stripe=stripe))
+
+    def radial_cap(self, x0, x1, cy, r, legs, pads):
+        """A radial electrolytic lying along x on the board, legs out of the `legs` end ('w'/'e'),
+        bent down onto pads [(x, y), (x, y)] (plus first, minus second)."""
+        self.objs.append(dict(kind="radial", x0=x0, x1=x1, cy=cy, r=r, legs=legs))
+        self.plan_extras.append((x0, cy - r, x1 - x0, 2 * r, GRAFFITI_PURPLE))      # shown in the flat plan only
+        self.plan_extras.append((x0, cy + r * 0.45, x1 - x0, 4, SILKSCREEN_WHITE))
+        self.plan_extras.append((x1 - 6 if legs == "w" else x0, cy - r, 6, 2 * r, SILKSCREEN_SHADE))
+        bx, s = (x0, -1) if legs == "w" else (x1, 1)
+        for (px, py), off in zip(pads, (-0.35, 0.35)):
+            self.wire([(bx, cy + off * r, r), (bx + s * 10, cy + off * r, r - 4), (bx + s * 16, cy + off * r * 1.6, 12),
+                       (px, py, 5)], 4, SILKSCREEN_SHADE)
 
     def legs(self, xs, y, dy, n, wid=5):
         for x in xs:
@@ -615,9 +668,12 @@ class City:
         cyl_sh = [[proj(o["cx"] - o["r"], o["y0"], 0), proj(o["cx"] + o["r"] + light[0] * 60, o["y0"] + 30, 0),
                    proj(o["cx"] + o["r"] + light[0] * 60, o["y1"] + 40, 0), proj(o["cx"] - o["r"], o["y1"], 0)]
                   for o in self.objs if o["kind"] == "hcyl"]
+        cyl_sh += [radial_shadow(o, proj, light) for o in self.objs if o["kind"] == "radial"]
         shade_screen(screen_mask([footprint_shadow(o) for o in ground] + cyl_sh) & board_screen)
         items = [(o["y"] + o["d"], 0, lambda o=o: draw_box(o)) for o in ground]
         items += [(o["y1"], 0, lambda o=o: draw_hcyl(o)) for o in self.objs if o["kind"] == "hcyl"]
+        items += [(o["cy"] + o["r"], 0, lambda o=o: draw_radial(o, proj, poly, lambda pts, c, w: dr.line(pts, fill=c, width=w), cam))
+                  for o in self.objs if o["kind"] == "radial"]
         items += [(max(p[1] for p in r[0]), 1, lambda r=r: draw_run(*r[:3])) for r in runs if not r[3]]
         for _, _, fn in sorted(items, key=lambda t: (t[0], t[1])):
             fn()
@@ -635,4 +691,6 @@ class City:
         pl = np.zeros_like(self.a)
         pl[:] = VOID
         pl[alpha] = self.a[alpha]
+        for x, y, w, h, col in self.plan_extras:
+            pl[int(y):int(y + h), int(x):int(x + w)] = col
         return Image.fromarray(pl)
