@@ -106,7 +106,7 @@
 /* name, CSS family, body size / line height, heading sizes, weight. Sizes are picked so each font
    lands on (or near) its native pixel grid. */
 const FONTS = [
-  { id: "current", name: "Current site (Silkscreen + IBM Plex Sans)", head: "Silkscreen", body: "IBM Plex Sans", fixed: true },
+  { id: "current", name: "Before (Silkscreen + IBM Plex Sans)", head: "Silkscreen", body: "IBM Plex Sans", fixed: true },
   { id: "silkscreen", name: "Silkscreen", family: "Silkscreen", body: 16, lh: 1.7, h1: 48, h2: 32, h3: 18 },
   { id: "press-start", name: "Press Start 2P", family: "'Press Start 2P'", body: 12, lh: 2.0, h1: 32, h2: 24, h3: 14 },
   { id: "vt323", name: "VT323", family: "VT323", body: 24, lh: 1.2, h1: 64, h2: 44, h3: 28 },
@@ -161,7 +161,7 @@ function apply(headId, bodyId) {
 
 function fromHash() {
   const q = new URLSearchParams(location.hash.slice(1));
-  const h = byId[q.get("head")] ? q.get("head") : "current", b = byId[q.get("body")] ? q.get("body") : "current";
+  const h = byId[q.get("head")] ? q.get("head") : "silkscreen", b = byId[q.get("body")] ? q.get("body") : "pixelify";
   same.checked = h === b && h !== "current";
   apply(h, b);
 }
