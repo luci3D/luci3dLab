@@ -22,8 +22,8 @@
   --violet: #6e34b4;
 
   --font-silk: "Silkscreen", ui-monospace, monospace;
-  --font-body: "Pixelify Sans", system-ui, sans-serif;
-  --font-mono: "Pixelify Sans", ui-monospace, monospace;   /* one pixel face for text and code */
+  --font-body: "Doto", ui-monospace, monospace;
+  --font-mono: "Doto", ui-monospace, monospace;   /* one dot-matrix face for text and code */
 
   --wrap: 1120px;
   --gutter: 16px;
@@ -36,7 +36,8 @@ body {
   background: var(--mask);
   color: var(--silk);
   font: 19px/1.5 var(--font-body);
-  font-variant-ligatures: none;        /* Pixelify's fi/fl ligatures read as a capital A */
+  font-weight: 900;                    /* Doto's dots get too thin to read at lighter weights */
+  font-variant-ligatures: none;
   font-feature-settings: "liga" 0, "clig" 0;
   -webkit-font-smoothing: antialiased;
 }

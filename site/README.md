@@ -24,7 +24,7 @@ Then open http://localhost:8000.
 
 - **Products, prices and buy buttons:** `js/products.js`. When a product is ready, set its `status` to `"available"`, fill in `price`, and paste its Stripe Payment Link into `stripe` and its PayPal link into `paypal`. The buttons appear by themselves.
 - **"Get notified" link:** `NOTIFY_URL` at the bottom of `js/products.js` (a newsletter sign-up page, once there is one).
-- **Fonts:** Silkscreen for headings, menu and buttons; Pixelify Sans for everything else (`--font-silk` and `--font-body` in `css/style.css`). Ligatures are off because Pixelify's fi/fl ligatures read as a capital A. `fonts.html` (not linked) compares pixel fonts on real page content.
+- **Fonts:** Silkscreen for headings, menu and buttons; Doto (dot matrix, weight 900) for everything else (`--font-silk` and `--font-body` in `css/style.css`). `fonts.html` (not linked) compares pixel fonts on real page content.
 - **Company name:** search all `.html` files for `luci3D hardware`.
 - **YouTube link:** the `TODO` in the footer of each page.
 - **Art:** after re-rendering anything in `art/`, run `python3 site/tools/sync_assets.py` to copy it into `site/img/` (it also rebuilds the favicon).

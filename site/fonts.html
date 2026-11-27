@@ -161,7 +161,7 @@ function apply(headId, bodyId) {
 
 function fromHash() {
   const q = new URLSearchParams(location.hash.slice(1));
-  const h = byId[q.get("head")] ? q.get("head") : "silkscreen", b = byId[q.get("body")] ? q.get("body") : "pixelify";
+  const h = byId[q.get("head")] ? q.get("head") : "silkscreen", b = byId[q.get("body")] ? q.get("body") : "doto";
   same.checked = h === b && h !== "current";
   apply(h, b);
 }
