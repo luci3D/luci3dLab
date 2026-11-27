@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pixel font test · luci3D hardware</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- one stylesheet per family, so a font that fails to load can't break the others -->
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Tiny5&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Jersey+10&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Micro+5&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Doto:wght@600;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Handjet:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sixtyfour&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  /* the test drives these: every font has its own sizes, because pixel fonts only look sharp at certain sizes */
+  :root { --body-size: 17px; --body-lh: 1.6; --h1-size: 52px; --h2-size: 32px; --h3-size: 19px; }
+  body { font-size: var(--body-size); line-height: var(--body-lh); }
+  h1 { font-size: var(--h1-size); }
+  h2 { font-size: var(--h2-size); }
+  h3, .product h3 { font-size: var(--h3-size); }
+  .controls {
+    position: sticky; top: 64px; z-index: 5; background: var(--trace); box-shadow: inset 0 -2px 0 var(--trace-hi);
+    font: 15px/1.4 "IBM Plex Sans", system-ui, sans-serif;          /* the controls stay readable whatever you pick */
+  }
+  .controls .wrap { display: flex; gap: 16px 24px; flex-wrap: wrap; align-items: center; padding-top: 12px; padding-bottom: 12px; }
+  .controls label { display: flex; gap: 8px; align-items: center; color: var(--silk-shade); }
+  .controls select { font: inherit; background: var(--mask-deep); color: var(--silk); border: 2px solid var(--trace-hi); padding: 6px 8px; }
+  .controls .note { color: var(--silk-shade); font-size: 13px; }
+  .gallery { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
+  .gallery .card { display: flex; flex-direction: column; gap: 10px; }
+  .gallery .name { font: 13px "IBM Plex Mono", monospace; color: var(--silk-shade); }
+  .gallery button { align-self: flex-start; }
+  .gallery .h { color: var(--silk); }
+  .gallery .p { color: var(--silk); margin: 0; }
+</style>
+</head>
+<body>
+<header class="site-header"><div class="wrap">
+  <a class="brand" href="index.html"><img class="pixel" src="img/logo-1x.png" alt="" width="27" height="33"><span>luci3D hardware</span></a>
+  <nav class="nav">
+    <a href="dvr.html">open-dvr</a>
+    <a href="shop.html">The Lab</a>
+    <a href="game.html">Game</a>
+    <a href="https://github.com/luci3D/open-dvr">GitHub</a>
+  </nav>
+</div></header>
+
+<div class="controls"><div class="wrap">
+  <label>Headings, menu, buttons <select id="head"></select></label>
+  <label>Body text <select id="body"></select></label>
+  <label><input type="checkbox" id="same"> Same font for both</label>
+  <span class="note">Not linked from the site. The link keeps your choice, so you can share it.</span>
+</div></div>
+
+<main>
+<div class="hero">
+  <img class="pixel" src="img/clean.png" width="1800" height="760" alt="">
+  <div class="over"><div class="wrap">
+    <div class="silk kicker">luci3D hardware</div>
+    <h1>Built for analog FPV.</h1>
+    <p>We repair, reverse-engineer and build FPV electronics, and we'd rather fix a board than bin it. Our recorder, open-dvr, is open source and moving onto our own hardware.</p>
+    <div class="btns"><a class="btn" href="#">open-dvr</a><a class="btn ghost" href="#">The Lab</a><a class="btn ghost" href="#">Play a maze</a></div>
+  </div></div>
+</div>
+
+<section class="block"><div class="wrap split">
+  <div>
+    <div class="ref">U1</div>
+    <h2>open-dvr</h2>
+    <p>Most cheap analog DVRs throw away half your frames. open-dvr records every field your camera sends, so 50 and 60 fps footage really is 50 and 60 fps.</p>
+    <ul class="ticks">
+      <li>PAL 960 x 576 at 50 fps, NTSC 960 x 480 at 59.94 fps</li>
+      <li>On-board microphone, in sync with the video</li>
+      <li>Clips that survive a power cut</li>
+      <li>microSD cards up to 512 GB</li>
+    </ul>
+  </div>
+  <div class="product-single" data-products="1"></div>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <h2>All fonts side by side</h2>
+  <p class="muted">Each one at the sizes it looks sharpest. "Try it" puts it on the whole page above.</p>
+  <div class="gallery" id="gallery"></div>
+</div></section>
+</main>
+
+<footer class="site-footer"><div class="wrap">
+  <div><span class="silk">luci3D hardware</span><br>Analog FPV hardware, from Canada.</div>
+</div></footer>
+
+<script src="js/products.js"></script>
+<script src="js/shop.js"></script>
+<script>
+/* name, CSS family, body size / line height, heading sizes, weight. Sizes are picked so each font
+   lands on (or near) its native pixel grid. */
+const FONTS = [
+  { id: "current", name: "Current site (Silkscreen + IBM Plex Sans)", head: "Silkscreen", body: "IBM Plex Sans", fixed: true },
+  { id: "silkscreen", name: "Silkscreen", family: "Silkscreen", body: 16, lh: 1.7, h1: 48, h2: 32, h3: 18 },
+  { id: "press-start", name: "Press Start 2P", family: "'Press Start 2P'", body: 12, lh: 2.0, h1: 32, h2: 24, h3: 14 },
+  { id: "vt323", name: "VT323", family: "VT323", body: 24, lh: 1.2, h1: 64, h2: 44, h3: 28 },
+  { id: "pixelify", name: "Pixelify Sans", family: "'Pixelify Sans'", body: 19, lh: 1.5, h1: 52, h2: 36, h3: 22 },
+  { id: "tiny5", name: "Tiny5", family: "Tiny5", body: 20, lh: 1.5, h1: 56, h2: 36, h3: 22 },
+  { id: "jersey10", name: "Jersey 10", family: "'Jersey 10'", body: 24, lh: 1.25, h1: 72, h2: 48, h3: 28 },
+  { id: "micro5", name: "Micro 5", family: "'Micro 5'", body: 30, lh: 1.05, h1: 80, h2: 56, h3: 34 },
+  { id: "dotgothic", name: "DotGothic16", family: "DotGothic16", body: 16, lh: 1.7, h1: 48, h2: 32, h3: 18 },
+  { id: "doto", name: "Doto (dot matrix)", family: "Doto", body: 19, lh: 1.5, h1: 52, h2: 36, h3: 22, weight: 900 },
+  { id: "handjet", name: "Handjet", family: "Handjet", body: 22, lh: 1.35, h1: 60, h2: 40, h3: 24 },
+  { id: "sixtyfour", name: "Sixtyfour", family: "Sixtyfour", body: 13, lh: 1.8, h1: 34, h2: 24, h3: 15 },
+];
+const byId = Object.fromEntries(FONTS.map((f) => [f.id, f]));
+const root = document.documentElement.style;
+const headSel = document.getElementById("head"), bodySel = document.getElementById("body"), same = document.getElementById("same");
+
+for (const f of FONTS) {
+  headSel.add(new Option(f.name, f.id));
+  bodySel.add(new Option(f.name, f.id));
+}
+
+function apply(headId, bodyId) {
+  const h = byId[headId], b = byId[bodyId];
+  if (h.fixed) {
+    root.setProperty("--font-silk", '"Silkscreen", monospace');
+    root.setProperty("--h1-size", "clamp(32px, 5vw, 56px)");
+    root.setProperty("--h2-size", "clamp(24px, 3.2vw, 34px)");
+    root.setProperty("--h3-size", "19px");
+  } else {
+    root.setProperty("--font-silk", h.family + ", monospace");
+    root.setProperty("--h1-size", `min(${h.h1}px, 9vw)`);
+    root.setProperty("--h2-size", `min(${h.h2}px, 7vw)`);
+    root.setProperty("--h3-size", h.h3 + "px");
+  }
+  if (b.fixed) {
+    root.setProperty("--font-body", '"IBM Plex Sans", system-ui, sans-serif');
+    root.setProperty("--font-mono", '"IBM Plex Mono", monospace');
+    root.setProperty("--body-size", "17px");
+    root.setProperty("--body-lh", "1.6");
+    document.body.style.fontWeight = "";
+  } else {
+    root.setProperty("--font-body", b.family + ", monospace");
+    root.setProperty("--font-mono", b.family + ", monospace");
+    root.setProperty("--body-size", b.body + "px");
+    root.setProperty("--body-lh", String(b.lh));
+    document.body.style.fontWeight = b.weight || "";
+  }
+  headSel.value = headId;
+  bodySel.value = bodyId;
+  history.replaceState(null, "", `#head=${headId}&body=${bodyId}`);
+}
+
+function fromHash() {
+  const q = new URLSearchParams(location.hash.slice(1));
+  const h = byId[q.get("head")] ? q.get("head") : "current", b = byId[q.get("body")] ? q.get("body") : "current";
+  same.checked = h === b && h !== "current";
+  apply(h, b);
+}
+
+headSel.addEventListener("change", () => apply(headSel.value, same.checked ? headSel.value : bodySel.value));
+bodySel.addEventListener("change", () => apply(same.checked ? bodySel.value : headSel.value, bodySel.value));
+same.addEventListener("change", () => { if (same.checked) apply(headSel.value, headSel.value); });
+
+const gallery = document.getElementById("gallery");
+for (const f of FONTS.filter((f) => !f.fixed)) {
+  const card = document.createElement("div");
+  card.className = "card";
+  card.innerHTML = `<div class="name">${f.name} · body ${f.body}px</div>
+    <div class="h" style="font-family:${f.family};font-size:${Math.min(f.h2, 40)}px;line-height:1.1;font-weight:${f.weight || 400}">Built for analog FPV.</div>
+    <p class="p" style="font-family:${f.family};font-size:${f.body}px;line-height:${f.lh};font-weight:${f.weight || 400}">Most cheap analog DVRs throw away half your frames. open-dvr records every field: PAL 960 x 576 at 50 fps, NTSC at 59.94 fps.</p>
+    <button class="btn ghost" type="button">Try it</button>`;
+  card.querySelector("button").addEventListener("click", () => { same.checked = true; apply(f.id, f.id); window.scrollTo({ top: 0, behavior: "smooth" }); });
+  gallery.append(card);
+}
+
+fromHash();
+window.addEventListener("hashchange", fromHash);    // a pasted link applies without a reload
+</script>
+</body>
+</html>
