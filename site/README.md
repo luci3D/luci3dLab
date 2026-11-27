@@ -31,4 +31,7 @@ Then open http://localhost:8000.
 
 ## Publishing (GitHub Pages)
 
+Links to `css/` and `js/` files end in `?v=dev`; the publish step swaps that for the commit ID, so browsers load the new files after every deploy instead of reusing old ones. Keep the `?v=dev` on any new stylesheet or script link.
+
+
 `.github/workflows/pages.yml` publishes this folder on every push to `main` that changes it. Turn it on once: repo **Settings → Pages → Build and deployment → Source: GitHub Actions**. The site then lives at `https://luci3d.github.io/luci3dlab/` until a custom domain is set (Settings → Pages → Custom domain).
